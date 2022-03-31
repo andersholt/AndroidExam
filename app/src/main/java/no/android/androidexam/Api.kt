@@ -1,14 +1,17 @@
 package no.android.androidexam
 
-import android.content.Context
-import android.util.JsonReader
 import android.util.Log
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
-import kotlinx.serialization.internal.throwMissingFieldException
+import com.androidnetworking.interfaces.StringRequestListener
 import org.json.JSONArray
+import org.json.JSONObject
+
+import com.androidnetworking.interfaces.JSONObjectRequestListener
+import java.io.File
+
 
 class ApiClient (){
     fun getByWebUrl(imageUrl: String, searchEngine: String): JSONArray {
@@ -29,21 +32,23 @@ class ApiClient (){
         return result
     }
 
-
-    fun getBySendingImage(imageLocation: String): JSONArray {
-        var result: JSONArray = JSONArray();
-
-        AndroidNetworking.post("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
-            .addBodyParameter("image", imageLocation)
-            .setPriority(Priority.LOW)
+    fun getBySendingImage(imageLocation: File): String {
+        var result = "";
+        AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
+            .addMultipartFile("image", imageLocation)
+            .addMultipartParameter("image", "value")
+            .setContentType("image/jpeg")
+            .setPriority(Priority.HIGH)
             .build()
-            .getAsJSONArray(object : JSONArrayRequestListener {
-                override fun onResponse(response: JSONArray) {
-                    Log.i("Response: ", response.toString())
-                    result = response
+            .setUploadProgressListener { bytesUploaded, totalBytes ->
+            }
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    Log.i("Response", response.toString())
+                    result=response.toString()
                 }
+
                 override fun onError(error: ANError) {
-                    Log.e("An error occured: ", error.toString())
                 }
             })
         return result

@@ -29,10 +29,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        var apiClient: ApiClient = ApiClient()
-        var result = apiClient.getByWebUrl("https://gtl-bucket.s3.amazonaws.com/502c47e85d2a49eab97444a11130066b.jpg", "bing")
-        Log.i("Result", result.toString())
     }
 
 
