@@ -11,9 +11,8 @@ import kotlinx.serialization.internal.throwMissingFieldException
 import org.json.JSONArray
 
 class ApiClient (){
-    var result: JSONArray = JSONArray();
-
-    fun getByWebUrl(imageUrl: String, searchEngine: String){
+    fun getByWebUrl(imageUrl: String, searchEngine: String): JSONArray {
+        var result: JSONArray = JSONArray();
         AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/" + searchEngine)
             .addQueryParameter("url", imageUrl)
             .setPriority(Priority.LOW)
@@ -21,15 +20,32 @@ class ApiClient (){
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray) {
                     Log.i("Response: ", response.toString())
-                    parseRes(response)
+                    result = response
                 }
                 override fun onError(error: ANError) {
                     Log.e("An error occured: ", error.toString())
                 }
             })
+        return result
     }
 
-    private fun parseRes(response: JSONArray) {
-        result = response
+
+    fun getBySendingImage(imageLocation: String): JSONArray {
+        var result: JSONArray = JSONArray();
+
+        AndroidNetworking.post("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
+            .addBodyParameter("image", imageLocation)
+            .setPriority(Priority.LOW)
+            .build()
+            .getAsJSONArray(object : JSONArrayRequestListener {
+                override fun onResponse(response: JSONArray) {
+                    Log.i("Response: ", response.toString())
+                    result = response
+                }
+                override fun onError(error: ANError) {
+                    Log.e("An error occured: ", error.toString())
+                }
+            })
+        return result
     }
 }
