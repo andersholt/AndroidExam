@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                     "Fragment1"
                 )
                 .commit()
-        } else if(Integer.parseInt(v.tag.toString()) == 1){
+        } else if(Integer.parseInt(v.tag.toString()) == 2){
             fragmentManager
                 .beginTransaction()
                 .replace(
