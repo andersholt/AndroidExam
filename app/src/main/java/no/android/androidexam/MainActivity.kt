@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     fun switchFragment(v: View) {
         Toast.makeText(
             this,
-            "Activity switchFragment. Tag" + v.getTag().toString(),
+            "Activity switchFragment. Tag" + v.tag.toString(),
             Toast.LENGTH_SHORT
         ).show()
 

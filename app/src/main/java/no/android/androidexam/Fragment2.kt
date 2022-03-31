@@ -13,10 +13,6 @@ class Fragment2 : Fragment() {
 
     var imageAdapter: ImageAdapter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +24,7 @@ class Fragment2 : Fragment() {
         val view = inflater.inflate(R.layout.fragment2, container, false)
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
 
-        recyclerView.setAdapter(imageAdapter)
+        recyclerView.adapter = imageAdapter
         return view
     }
 }

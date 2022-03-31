@@ -19,7 +19,7 @@ import java.io.File
 
 
 class Fragment1 : Fragment() {
-    public var imageUri: String = ""
+    var imageUri: String = ""
     lateinit var image: ImageView
     lateinit var button: Button
     var apiClient = ApiClient()
@@ -41,9 +41,6 @@ class Fragment1 : Fragment() {
                 i.type = "*/*"
                 startForResult.launch(i)
         }
-
-
-
         return view
     }
 

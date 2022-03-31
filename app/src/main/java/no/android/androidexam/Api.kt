@@ -13,9 +13,9 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import java.io.File
 
 
-class ApiClient (){
+class ApiClient {
     fun getByWebUrl(imageUrl: String, searchEngine: String): JSONArray {
-        var result: JSONArray = JSONArray();
+        var result: JSONArray = JSONArray()
         AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/" + searchEngine)
             .addQueryParameter("url", imageUrl)
             .setPriority(Priority.LOW)
@@ -33,7 +33,7 @@ class ApiClient (){
     }
 
     fun getBySendingImage(imageLocation: File): String {
-        var result = "";
+        var result = ""
         AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
             .addMultipartFile("image", imageLocation)
             .addMultipartParameter("image", "value")
