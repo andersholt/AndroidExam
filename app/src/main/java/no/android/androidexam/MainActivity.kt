@@ -5,6 +5,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
+import okhttp3.OkHttpClient
+import com.androidnetworking.error.ANError
+
+import org.json.JSONArray
+
+import com.androidnetworking.interfaces.JSONArrayRequestListener
+
+
+
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
+
+
     fun switchFragment(v: View) {
         Toast.makeText(
             this,
@@ -23,9 +39,11 @@ class MainActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         ).show()
 
+
+
         fragmentManager = supportFragmentManager
 
-        if (Integer.parseInt(v.getTag().toString()) == 1) {
+        if(Integer.parseInt(v.tag.toString()) == 1) {
             fragmentManager
                 .beginTransaction()
                 .replace(
@@ -34,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                     "Fragment1"
                 )
                 .commit()
-        } else if(Integer.parseInt(v.getTag().toString()) == 1){
+        } else if(Integer.parseInt(v.tag.toString()) == 1){
             fragmentManager
                 .beginTransaction()
                 .replace(
