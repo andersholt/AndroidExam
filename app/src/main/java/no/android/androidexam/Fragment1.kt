@@ -60,26 +60,7 @@ class Fragment1 : Fragment() {
         image.background = BitmapDrawable(resources, bitmapImage)
 
 
-        val immagex: Bitmap = bitmapImage
-
-
-
-
-
-
-        val baos = ByteArrayOutputStream()
-        immagex.compress(Bitmap.CompressFormat.PNG, 1, baos)
-        val b = baos.toByteArray()
-        var encodedImage = Base64.encodeToString(b, Base64.DEFAULT)
-
-
-        val imgFile = File(imageUri)
-
-        var result = apiClient.getBySendingImage(imgFile)
-
-
-
-
-        Log.i("Result from API", imgFile.absolutePath)
+        var result = apiClient.getBySendingImage(imageUri)
+        Log.i("Result from API", result)
     }
 }

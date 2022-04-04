@@ -7,10 +7,6 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
 import org.json.JSONArray
-import org.json.JSONObject
-
-import com.androidnetworking.interfaces.JSONObjectRequestListener
-import java.io.File
 
 
 class ApiClient {
@@ -32,23 +28,25 @@ class ApiClient {
         return result
     }
 
-    fun getBySendingImage(imageLocation: File): String {
+    fun getBySendingImage(imageLocation: String): String {
         var result = ""
-        AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
-            .addMultipartFile("image", imageLocation)
-            .addMultipartParameter("image", "value")
-            .setContentType("image/jpeg")
-            .setPriority(Priority.HIGH)
+
+        Log.i("Image", imageLocation)
+
+        AndroidNetworking.post("http://api-edu.gtl.ai/api/v1/imagesearch/upload/")
+            .addBodyParameter("image", imageLocation)
+            .setContentType("multipart/form-data")
+            .setTag("test")
+            .setPriority(Priority.MEDIUM)
             .build()
-            .setUploadProgressListener { bytesUploaded, totalBytes ->
-            }
-            .getAsJSONObject(object : JSONObjectRequestListener {
-                override fun onResponse(response: JSONObject) {
-                    Log.i("Response", response.toString())
-                    result=response.toString()
+            .getAsString(object: StringRequestListener {
+                override fun onResponse(response: String) {
+                    Log.i("Response", response)
+                    result=response
                 }
 
                 override fun onError(error: ANError) {
+                    // handle error
                 }
             })
         return result
