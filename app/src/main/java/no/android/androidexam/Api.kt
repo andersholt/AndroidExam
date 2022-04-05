@@ -7,12 +7,18 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
 import org.json.JSONArray
+import java.io.File
+import android.provider.MediaStore
 
+import android.app.Activity
+import android.database.Cursor
+import android.net.Uri
+import java.nio.channels.FileLockInterruptionException
 
 class ApiClient {
     fun getByWebUrl(imageUrl: String, searchEngine: String): JSONArray {
         var result: JSONArray = JSONArray()
-        AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/" + searchEngine)
+        AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/bing")
             .addQueryParameter("url", imageUrl)
             .setPriority(Priority.LOW)
             .build()
@@ -28,25 +34,20 @@ class ApiClient {
         return result
     }
 
-    fun getBySendingImage(imageLocation: String): String {
+
+    fun getBySendingImage(file: File): String {
         var result = ""
-
-        Log.i("Image", imageLocation)
-
-        AndroidNetworking.post("http://api-edu.gtl.ai/api/v1/imagesearch/upload/")
-            .addBodyParameter("image", imageLocation)
-            .setContentType("multipart/form-data")
-            .setTag("test")
-            .setPriority(Priority.MEDIUM)
+        AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
+            .addMultipartFile("image", file)
+            .setPriority(Priority.LOW).setTag("Test")
             .build()
             .getAsString(object: StringRequestListener {
                 override fun onResponse(response: String) {
                     Log.i("Response", response)
                     result=response
                 }
-
                 override fun onError(error: ANError) {
-                    // handle error
+                    Log.e("Error", error.toString())
                 }
             })
         return result
