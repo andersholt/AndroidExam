@@ -19,6 +19,7 @@ class Fragment1Child1: Fragment() {
     lateinit var image: ImageView
     var apiClient = ApiClient()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,7 +63,7 @@ class Fragment1Child1: Fragment() {
         val file = File("${path?.substringBefore("0/")}/${uri?.substringAfterLast("emulated/")}")
 
 
-        Log.i("File size", (file.path))
+        Log.i("File size", (path.toString()))
         Log.i("File size", (file.toString()))
 
         if(file.extension != "png"){
@@ -79,6 +80,9 @@ class Fragment1Child1: Fragment() {
 
 
         var result = apiClient.getBySendingImage(file)
+
+
+
 
         Log.i("Result from API", result)
     }

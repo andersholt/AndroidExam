@@ -15,18 +15,21 @@ import org.json.JSONArray
 
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import android.content.Intent
+import android.widget.Button
 
 
-
-
-class MainActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity() {
     private lateinit var fragmentManager: FragmentManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
     }
+
+
+
 
     fun switchFragment(v: View) {
         Toast.makeText(
@@ -38,23 +41,21 @@ class MainActivity : AppCompatActivity() {
         fragmentManager = supportFragmentManager
 
         if(Integer.parseInt(v.tag.toString()) == 1) {
-            setContentView(R.layout.f)
+            fragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.fragment_main,
+                    Fragment1Child1(),
+                    "Fragment1Child1"
+                )
+                .commit()
         } else if(Integer.parseInt(v.tag.toString()) == 2){
             fragmentManager
                 .beginTransaction()
                 .replace(
                     R.id.fragment_main,
-                    Fragment2(),
-                    "Fragment2"
-                )
-                .commit()
-        } else{
-            fragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.fragment_main,
-                    Fragment3(),
-                    "Fragment3"
+                    Fragment1Child2(),
+                    "Fragment1Child2"
                 )
                 .commit()
         }

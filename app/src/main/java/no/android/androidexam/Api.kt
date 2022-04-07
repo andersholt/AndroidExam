@@ -18,7 +18,7 @@ import java.nio.channels.FileLockInterruptionException
 class ApiClient {
     fun getByWebUrl(imageUrl: String, searchEngine: String): JSONArray {
         var result: JSONArray = JSONArray()
-        AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/bing")
+        AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/" + searchEngine)
             .addQueryParameter("url", imageUrl)
             .setPriority(Priority.LOW)
             .build()
@@ -39,7 +39,7 @@ class ApiClient {
         var result = ""
         AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
             .addMultipartFile("image", file)
-            .setPriority(Priority.LOW)
+            .setPriority(Priority.HIGH)
             .build()
             .getAsString(object: StringRequestListener {
                 override fun onResponse(response: String) {
