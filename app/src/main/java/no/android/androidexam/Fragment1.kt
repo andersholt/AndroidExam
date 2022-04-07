@@ -31,12 +31,38 @@ class Fragment1 : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment1, container, false)
 
-        val videoFragment = Fragment1Child1()
-        childFragmentManager.beginTransaction().apply {
-            add(R.id.child_fragment_container, videoFragment)
-            commit()
-        }
 
+        val selectImage: Button = view.findViewById(R.id.select_image)
+        selectImage.setOnClickListener{
+            switchFragment(view.findViewWithTag("1"))
+        }
+        val uploadImage: Button = view.findViewById(R.id.upload_image)
+        uploadImage.setOnClickListener{
+            switchFragment(view.findViewWithTag("2"))
+        }
         return view
+    }
+
+
+    fun switchFragment(v: View) {
+        if (Integer.parseInt(v.tag.toString()) == 1) {
+            childFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.child_fragment_container,
+                    Fragment1Child1(),
+                    "Fragment1child1"
+                )
+                .commit()
+        } else if (Integer.parseInt(v.tag.toString()) == 2) {
+            childFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.child_fragment_container,
+                    Fragment1Child2(),
+                    "Fragment1Child2"
+                )
+                .commit()
+        }
     }
 }

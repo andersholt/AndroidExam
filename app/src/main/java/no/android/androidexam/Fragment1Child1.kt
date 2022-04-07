@@ -17,7 +17,6 @@ import java.io.File
 class Fragment1Child1: Fragment() {
     var imageUri: String = ""
     lateinit var image: ImageView
-    lateinit var button: Button
     var apiClient = ApiClient()
 
     override fun onCreateView(
@@ -29,14 +28,10 @@ class Fragment1Child1: Fragment() {
         val view = inflater.inflate(R.layout.fragment1_child1, container, false)
 
         image = view.findViewById(R.id.image)
-        button = view.findViewById(R.id.addImage)
-
-        button.setOnClickListener {
             var i = Intent()
             i.action = Intent.ACTION_GET_CONTENT
             i.type = "*/*"
             startForResult.launch(i)
-        }
         return view
     }
 
@@ -87,6 +82,4 @@ class Fragment1Child1: Fragment() {
 
         Log.i("Result from API", result)
     }
-}
-
 }

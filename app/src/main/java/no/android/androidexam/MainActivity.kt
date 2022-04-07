@@ -18,13 +18,10 @@ import com.androidnetworking.interfaces.JSONArrayRequestListener
 class MainActivity : AppCompatActivity() {
     private lateinit var fragmentManager: FragmentManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-
-
 
     fun switchFragment(v: View) {
         Toast.makeText(
@@ -32,8 +29,6 @@ class MainActivity : AppCompatActivity() {
             "Activity switchFragment. Tag" + v.tag.toString(),
             Toast.LENGTH_SHORT
         ).show()
-
-
 
         fragmentManager = supportFragmentManager
 
