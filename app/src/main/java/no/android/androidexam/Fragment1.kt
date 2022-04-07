@@ -29,67 +29,14 @@ class Fragment1 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Toast.makeText(activity, "Fragment 1 onCreateView", Toast.LENGTH_SHORT).show()
-
         val view = inflater.inflate(R.layout.fragment1, container, false)
 
-        image = view.findViewById(R.id.image)
-        button = view.findViewById(R.id.addImage)
-
-        button.setOnClickListener {
-                var i = Intent()
-                i.action = Intent.ACTION_GET_CONTENT
-                i.type = "*/*"
-                startForResult.launch(i)
+        val videoFragment = Fragment1Child1()
+        childFragmentManager.beginTransaction().apply {
+            add(R.id.child_fragment_container, videoFragment)
+            commit()
         }
+
         return view
-    }
-
-    private var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
-        imageUri = it.data?.data.toString()
-
-        Log.i("Image", imageUri)
-
-        var bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
-
-        image.layoutParams = image.layoutParams.apply {
-
-            width = bitmapImage.width
-            height = bitmapImage.height
-        }
-
-        image.setImageBitmap(bitmapImage)
-        image.background = BitmapDrawable(resources, bitmapImage)
-
-        getImageLinkByPost(it.data?.data?.path)
-    }
-
-
-    fun getImageLinkByPost(uri: String?){
-
-        val path = getContext()?.getExternalFilesDir(null)?.absolutePath
-        val file = File("${path?.substringBefore("0/")}/${uri?.substringAfterLast("emulated/")}")
-
-
-        Log.i("File size", (file.path))
-        Log.i("File size", (file.toString()))
-
-        if(file.extension != "png"){
-            Log.w("Warning", "Image is of wrong file type: ${file.extension}")
-            return
-        }
-
-
-        Log.i("FIlecompare", file.length().compareTo(1000000).toString())
-
-        if (file.length().compareTo(1048576) != -1){
-        }
-
-
-
-        var result = apiClient.getBySendingImage(file)
-
-        Log.i("Result from API", result)
     }
 }

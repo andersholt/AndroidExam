@@ -15,13 +15,6 @@ import org.json.JSONArray
 
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 
-
-
-
-
-
-
-
 class MainActivity : AppCompatActivity() {
     private lateinit var fragmentManager: FragmentManager
 
