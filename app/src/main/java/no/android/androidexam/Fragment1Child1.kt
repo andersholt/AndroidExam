@@ -39,7 +39,7 @@ class Fragment1Child1: Fragment() {
 
 
 
-    private var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    public var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
 
         imageUri = it.data?.data.toString()
 
@@ -57,10 +57,13 @@ class Fragment1Child1: Fragment() {
         image.background = BitmapDrawable(resources, bitmapImage)
 
         getImageLinkByPost(it.data?.data?.path)
+
     }
 
 
-    fun getImageLinkByPost(uri: String?){
+
+
+    fun getImageLinkByPost (uri: String?){
 
         val path = getContext()?.getExternalFilesDir(null)?.absolutePath
         val file = File("${path?.substringBefore("0/")}/${uri?.substringAfterLast("emulated/")}")
@@ -91,4 +94,5 @@ class Fragment1Child1: Fragment() {
 
         Log.i("Result from API", result)
     }
+
 }

@@ -33,7 +33,7 @@ class Fragment2 : Fragment() {
         val view = inflater.inflate(R.layout.fragment2, container, false)
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
 
-        recyclerView.layoutManager = GridLayoutManager(activity, 2)
+        recyclerView.layoutManager = GridLayoutManager(activity, 3)
 
         val cats = listOf(
             Cats("Simba", R.drawable.img),

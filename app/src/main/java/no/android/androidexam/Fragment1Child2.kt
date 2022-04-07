@@ -1,5 +1,6 @@
 package no.android.androidexam
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +32,9 @@ class Fragment1Child2: Fragment() {
 
     fun onClick(v: View) {
         when (v.id) {
-            R.id.bing -> {}
+            R.id.bing -> {
+                val f : Fragment1Child1 = Fragment1Child1()
+            }
             R.id.google -> {}
             R.id.tineye -> {}
             else -> {}
