@@ -1,5 +1,6 @@
 package no.android.androidexam
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -35,6 +36,8 @@ class Fragment1Child1: Fragment() {
             startForResult.launch(i)
         return view
     }
+
+
 
     private var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
 
@@ -82,7 +85,9 @@ class Fragment1Child1: Fragment() {
         var result = apiClient.getBySendingImage(file)
 
 
-
+        val intent = Intent()
+        intent.putExtra("selection",result)
+        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
 
         Log.i("Result from API", result)
     }

@@ -38,7 +38,14 @@ class MainActivity : AppCompatActivity() {
         fragmentManager = supportFragmentManager
 
         if(Integer.parseInt(v.tag.toString()) == 1) {
-            setContentView(R.layout.f)
+            fragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.fragment_main,
+                    Fragment1(),
+                    "Fragment1"
+                )
+                .commit()
         } else if(Integer.parseInt(v.tag.toString()) == 2){
             fragmentManager
                 .beginTransaction()
