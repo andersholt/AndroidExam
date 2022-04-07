@@ -16,10 +16,7 @@ import com.androidnetworking.error.ANError
 import org.json.JSONArray
 
 import com.androidnetworking.interfaces.JSONArrayRequestListener
-
-
-
-
+import android.content.Intent
 
 
 
@@ -34,16 +31,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
     fun switchFragment(v: View) {
         Toast.makeText(
             this,
             "Activity switchFragment. Tag" + v.tag.toString(),
             Toast.LENGTH_SHORT
         ).show()
-
-
 
         fragmentManager = supportFragmentManager
 
