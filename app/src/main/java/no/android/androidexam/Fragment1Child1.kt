@@ -62,7 +62,7 @@ class Fragment1Child1: Fragment() {
 
     fun getImageLinkByPost(uri: String?){
 
-        val path = getContext()?.getExternalFilesDir(null)?.absolutePath
+        val path = context?.getExternalFilesDir(null)?.absolutePath
         val file = File("${path?.substringBefore("0/")}/${uri?.substringAfterLast("emulated/")}")
 
 
