@@ -1,5 +1,6 @@
 package no.android.androidexam
 
+import android.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,8 +18,7 @@ import org.json.JSONArray
 
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import android.content.Intent
-
-
+import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,8 +28,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onAttachFragment(fragment: Fragment?) {
 
     }
+
 
     fun switchFragment(v: View) {
         Toast.makeText(
