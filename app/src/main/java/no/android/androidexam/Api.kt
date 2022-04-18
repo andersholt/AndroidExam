@@ -13,7 +13,11 @@ import android.provider.MediaStore
 import android.app.Activity
 import android.database.Cursor
 import android.net.Uri
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import java.lang.Thread.sleep
 import java.nio.channels.FileLockInterruptionException
+import kotlin.coroutines.CoroutineContext
 
 class ApiClient {
     fun getByWebUrl(imageUrl: String, searchEngine: String): JSONArray {
@@ -34,22 +38,23 @@ class ApiClient {
         return result
     }
 
+    fun getBySendingImage(file: File): String  = runBlocking{
+        var result: String = ""
 
-    fun getBySendingImage(file: File): String {
-        var result = ""
-        AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
+        val request = AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
             .addMultipartFile("image", file)
             .setPriority(Priority.HIGH)
             .build()
             .getAsString(object: StringRequestListener {
                 override fun onResponse(response: String) {
                     Log.i("Response", response)
-                    result=response
+                    result = response
                 }
                 override fun onError(error: ANError) {
                     Log.e("Error", error.toString())
                 }
             })
-        return result
+        delay(8000)
+        result
     }
 }

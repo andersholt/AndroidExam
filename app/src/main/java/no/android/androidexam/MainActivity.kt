@@ -26,23 +26,29 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        fragmentManager = supportFragmentManager
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        fragmentManager
+            .beginTransaction()
+            .replace(
+                R.id.fragment_main,
+                Fragment1(),
+                "Fragment1"
+            )
+            .commit()
     }
-
-    override fun onAttachFragment(fragment: Fragment?) {
-
-    }
-
 
     fun switchFragment(v: View) {
+        fragmentManager = supportFragmentManager
+
         Toast.makeText(
             this,
             "Activity switchFragment. Tag" + v.tag.toString(),
             Toast.LENGTH_SHORT
         ).show()
 
-        fragmentManager = supportFragmentManager
 
         if(Integer.parseInt(v.tag.toString()) == 1) {
             fragmentManager
