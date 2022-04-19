@@ -1,5 +1,6 @@
 package no.android.androidexam
 
+import android.content.Context
 import android.graphics.Color
 import android.text.Layout
 import android.view.LayoutInflater
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-class ImageAdapter( val cats: List<Cats>) : RecyclerView.Adapter<ImageAdapter.ItemViewHolder>() {
+class ImageAdapter( val context : Context, val cats: List<Cats>) : RecyclerView.Adapter<ImageAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         var image: ImageView
@@ -26,7 +27,7 @@ class ImageAdapter( val cats: List<Cats>) : RecyclerView.Adapter<ImageAdapter.It
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
 
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.imagerow, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.imagerow, parent, false)
        /* val ll1: LinearLayout = LinearLayout(parent.context)
         ll1.layoutParams = LinearLayout.LayoutParams(
             0,
@@ -65,6 +66,6 @@ class ImageAdapter( val cats: List<Cats>) : RecyclerView.Adapter<ImageAdapter.It
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return cats.size
     }
 }

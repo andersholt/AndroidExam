@@ -36,19 +36,19 @@ class Fragment2 : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(activity, 3)
 
         val cats = listOf(
-            Cats("Simba", R.drawable.img),
-            Cats("Scar", R.drawable.img_1),
-            Cats("Scar", R.drawable.img_2),
-            Cats("Scar", R.drawable.img_3),
-            Cats("Scar", R.drawable.img_4),
-            Cats("Scar", R.drawable.img_5),
-            Cats("Scar", R.drawable.img_6),
-            Cats("Scar", R.drawable.img_7),
-            Cats("Scar", R.drawable.img_8),
-            Cats("Scar", R.drawable.img_9),
-            Cats("Scar", R.drawable.img_10),
+            Cats(1, R.drawable.img),
+            Cats(1, R.drawable.img_1),
+            Cats(1, R.drawable.img_2),
+            Cats(1, R.drawable.img_3),
+            Cats(1, R.drawable.img_4),
+            Cats(1, R.drawable.img_5),
+            Cats(1, R.drawable.img_6),
+            Cats(1, R.drawable.img_7),
+            Cats(1, R.drawable.img_8),
+            Cats(1, R.drawable.img_9),
+            Cats(1, R.drawable.img_10),
         )
-        imageAdapter = ImageAdapter(cats)
+        imageAdapter = this.context?.let { ImageAdapter(it, cats) }
 
         recyclerView.setAdapter(imageAdapter)
         return view
