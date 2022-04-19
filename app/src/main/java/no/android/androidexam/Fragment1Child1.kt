@@ -67,7 +67,7 @@ class Fragment1Child1: Fragment() {
         image.setImageBitmap(bitmapImage)
         image.background = BitmapDrawable(resources, bitmapImage)
 
-
+//Crop Before this -- Create a method
         val sd: File? = context?.cacheDir
         val folder = File(sd, "/myfolder/")
         if (!folder.exists()) {
