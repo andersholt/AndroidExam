@@ -1,6 +1,5 @@
-package no.android.androidexam
+package no.android.androidexam.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import no.android.androidexam.ApiClient
+import no.android.androidexam.R
 
 
 class Fragment1Child2: Fragment() {
