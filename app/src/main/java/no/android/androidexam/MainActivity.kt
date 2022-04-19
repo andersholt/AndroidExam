@@ -1,24 +1,10 @@
 package no.android.androidexam
 
-import android.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.common.Priority
-import okhttp3.OkHttpClient
-import com.androidnetworking.error.ANError
-
-import org.json.JSONArray
-
-import com.androidnetworking.interfaces.JSONArrayRequestListener
-import android.content.Intent
-import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,23 +12,29 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        fragmentManager = supportFragmentManager
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        fragmentManager
+            .beginTransaction()
+            .replace(
+                R.id.fragment_main,
+                Fragment1(),
+                "Fragment1"
+            )
+            .commit()
     }
-
-    override fun onAttachFragment(fragment: Fragment?) {
-
-    }
-
 
     fun switchFragment(v: View) {
+        fragmentManager = supportFragmentManager
+
         Toast.makeText(
             this,
             "Activity switchFragment. Tag" + v.tag.toString(),
             Toast.LENGTH_SHORT
         ).show()
 
-        fragmentManager = supportFragmentManager
 
         if(Integer.parseInt(v.tag.toString()) == 1) {
             fragmentManager

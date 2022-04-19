@@ -50,7 +50,7 @@ class Fragment2 : Fragment() {
         )
         imageAdapter = ImageAdapter(cats)
 
-        recyclerView.setAdapter(imageAdapter)
+        recyclerView.adapter = imageAdapter
         return view
     }
 

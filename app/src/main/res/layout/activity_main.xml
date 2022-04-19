@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:onClick="switchFragment"
                 android:tag="1"
-                android:text="Select/Upload/Show image" />
+                android:text="Select Image" />
 
             <Button
                 android:layout_width="match_parent"
@@ -39,9 +39,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:onClick="switchFragment"
-
                 android:tag="2"
-                android:text="Reverse image search results" />
+                android:text="Results" />
 
             <Button
                 android:layout_width="match_parent"

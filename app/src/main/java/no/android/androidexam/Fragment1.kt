@@ -5,22 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 
 
 class Fragment1 : Fragment() {
-    var imageUri: String = ""
-    lateinit var image: ImageView
-    lateinit var button: Button
-    var apiClient = ApiClient()
+    val bundle = Bundle()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment1, container, false)
-
 
         val selectImage: Button = view.findViewById(R.id.select_image)
         selectImage.setOnClickListener{
@@ -30,11 +25,15 @@ class Fragment1 : Fragment() {
         uploadImage.setOnClickListener{
             switchFragment(view.findViewWithTag("2"))
         }
+
+        switchFragment(view.findViewWithTag("1"))
+
+
+
         return view
     }
 
-
-    fun switchFragment(v: View) {
+    private fun switchFragment(v: View) {
         if (Integer.parseInt(v.tag.toString()) == 1) {
             childFragmentManager
                 .beginTransaction()
@@ -45,11 +44,13 @@ class Fragment1 : Fragment() {
                 )
                 .commit()
         } else if (Integer.parseInt(v.tag.toString()) == 2) {
+            val fragment1Child2 = Fragment1Child2()
+            fragment1Child2.arguments = bundle
             childFragmentManager
                 .beginTransaction()
                 .replace(
                     R.id.child_fragment_container,
-                    Fragment1Child2(),
+                    fragment1Child2,
                     "Fragment1Child2"
                 )
                 .commit()
