@@ -12,20 +12,25 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 class Fragment1Child1: Fragment() {
-    var imageUri: String = ""
+    private var imageUri: String = ""
     lateinit var image: ImageView
-    var apiClient = ApiClient()
+    private var apiClient = ApiClient()
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("image", imageUri)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +42,7 @@ class Fragment1Child1: Fragment() {
         val button = view.findViewById<Button>(R.id.select_image)
         button.setOnClickListener {
             image = view.findViewById(R.id.image)
-            var i = Intent()
+            val i = Intent()
             i.action = Intent.ACTION_GET_CONTENT
             i.type = "*/*"
             startForResult.launch(i)
@@ -45,27 +50,25 @@ class Fragment1Child1: Fragment() {
         return view
     }
 
-
-
-    private var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
 
         imageUri = it.data?.data.toString()
 
         Log.i("Image", imageUri)
 
-        var bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
+        val bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
 
-        image.layoutParams = image.layoutParams.apply {
+        image.layoutParams.apply {
 
             width = bitmapImage.width
             height = bitmapImage.height
-        }
+        }.also { it -> image.layoutParams = it }
 
         image.setImageBitmap(bitmapImage)
         image.background = BitmapDrawable(resources, bitmapImage)
 
 
-        val sd: File? = context?.getCacheDir()
+        val sd: File? = context?.cacheDir
         val folder = File(sd, "/myfolder/")
         if (!folder.exists()) {
             if (!folder.mkdir()) {
@@ -90,18 +93,10 @@ class Fragment1Child1: Fragment() {
         Log.i("Location", fileName.path.toString())
         Log.i("Name", fileName.name)
 
-        val bundle = Bundle()
-
-        fun main() = runBlocking{
-            var result = apiClient.getBySendingImage(fileName)
-
-            bundle.putString("link", result)
-
-            requireActivity().supportFragmentManager.setFragmentResult("request_Key", bundle)
-            Log.i("Result from API", result)
+        GlobalScope.launch(Dispatchers.IO) {
+            val result = runBlocking {apiClient.getBySendingImage(fileName)}
+            parentFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to result))
         }
-        main()
-
     }
 }
 
