@@ -1,6 +1,7 @@
 package no.android.androidexam
 
 import android.content.Context
+import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 
 import android.widget.TextView
-
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.squareup.picasso.Picasso
 
-class ChildModel(val heroImage: Int, val movieName: String)
+class ImageLinks(val storeLink: String, val thumbNailLink: String)
 
 class ParentModel(private var movieCategory: String) {
     fun movieCategory(): String {
@@ -21,14 +22,12 @@ class ParentModel(private var movieCategory: String) {
     }
 }
 
-class ChildRecyclerViewAdapter(arrayList: ArrayList<ChildModel>) :
+class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>) :
     RecyclerView.Adapter<ChildRecyclerViewAdapter.MyViewHolder>() {
-    private var childModelArrayList: ArrayList<ChildModel> = arrayList
+    private var childModelArrayList: ArrayList<ImageLinks> = arrayList
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var heroImage: ImageView = itemView.findViewById(R.id.hero_image)
-        var movieName: TextView = itemView.findViewById(R.id.movie_name)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -39,8 +38,8 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ChildModel>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = childModelArrayList[position]
-        holder.heroImage.setImageResource(currentItem.heroImage)
-        holder.movieName.text = currentItem.movieName
+        Log.i("link", currentItem.storeLink)
+        Picasso.get().load(currentItem.storeLink).into(holder.heroImage);
     }
 
     override fun getItemCount(): Int {
@@ -52,13 +51,13 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ChildModel>) :
 
 class ParentRecyclerViewAdapter(
     private val parentModelArrayList: ArrayList<ParentModel>,
-    private var cxt: Context
+    private var cxt: Context,
+    private val arrayList: ArrayList<ImageLinks> = ArrayList()
 ) :
     RecyclerView.Adapter<ParentRecyclerViewAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var category: TextView = itemView.findViewById(R.id.Movie_category)
         var childRecyclerView: RecyclerView = itemView.findViewById(R.id.Child_RV)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -71,6 +70,7 @@ class ParentRecyclerViewAdapter(
         return parentModelArrayList.size
     }
 
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = parentModelArrayList[position]
         val layoutManager: RecyclerView.LayoutManager =
@@ -78,63 +78,10 @@ class ParentRecyclerViewAdapter(
         holder.childRecyclerView.layoutManager = layoutManager
         holder.childRecyclerView.setHasFixedSize(true)
         holder.category.text = currentItem.movieCategory()
-        val arrayList: ArrayList<ChildModel> = ArrayList()
 
-        // added the first child row
-        if (parentModelArrayList[position].movieCategory() == "Category1") {
-            arrayList.add(ChildModel(R.drawable.img_1, "Cat1"))
-            arrayList.add(ChildModel(R.drawable.img_2, "Cat2"))
-            arrayList.add(ChildModel(R.drawable.img_3, "Cat3"))
-            arrayList.add(ChildModel(R.drawable.img_4, "Cat4"))
-        }
-
-        if (parentModelArrayList[position].movieCategory() == "Category2") {
-            arrayList.add(ChildModel(R.drawable.img_1, "Cat1"))
-            arrayList.add(ChildModel(R.drawable.img_2, "Cat2"))
-            arrayList.add(ChildModel(R.drawable.img_3, "Cat3"))
-            arrayList.add(ChildModel(R.drawable.img_4, "Cat4"))
-        }
-
-
-        if (parentModelArrayList[position].movieCategory() == "Category3") {
-            arrayList.add(ChildModel(R.drawable.img_1, "Cat1"))
-            arrayList.add(ChildModel(R.drawable.img_2, "Cat2"))
-            arrayList.add(ChildModel(R.drawable.img_3, "Cat3"))
-            arrayList.add(ChildModel(R.drawable.img_4, "Cat4"))
-        }
-
-        if (parentModelArrayList[position].movieCategory() == "Category4") {
-            arrayList.add(ChildModel(R.drawable.img_1, "Cat1"))
-            arrayList.add(ChildModel(R.drawable.img_2, "Cat2"))
-            arrayList.add(ChildModel(R.drawable.img_3, "Cat3"))
-            arrayList.add(ChildModel(R.drawable.img_4, "Cat4"))
-        }
-        if (parentModelArrayList[position].movieCategory() == "Category5") {
-            arrayList.add(ChildModel(R.drawable.img_1, "Cat1"))
-            arrayList.add(ChildModel(R.drawable.img_2, "Cat2"))
-            arrayList.add(ChildModel(R.drawable.img_3, "Cat3"))
-            arrayList.add(ChildModel(R.drawable.img_4, "Cat4"))
-        }
-        if (parentModelArrayList[position].movieCategory() == "Category6") {
-            arrayList.add(ChildModel(R.drawable.img_1, "Cat1"))
-            arrayList.add(ChildModel(R.drawable.img_2, "Cat2"))
-            arrayList.add(ChildModel(R.drawable.img_3, "Cat3"))
-            arrayList.add(ChildModel(R.drawable.img_4, "Cat4"))
-        }
-        if (parentModelArrayList[position].movieCategory() == "Category7") {
-            arrayList.add(ChildModel(R.drawable.img_1, "Cat1"))
-            arrayList.add(ChildModel(R.drawable.img_2, "Cat2"))
-            arrayList.add(ChildModel(R.drawable.img_3, "Cat3"))
-            arrayList.add(ChildModel(R.drawable.img_4, "Cat4"))
-        }
-        if (parentModelArrayList[position].movieCategory() == "Category8") {
-            arrayList.add(ChildModel(R.drawable.img_1, "Cat1"))
-            arrayList.add(ChildModel(R.drawable.img_2, "Cat2"))
-            arrayList.add(ChildModel(R.drawable.img_3, "Cat3"))
-            arrayList.add(ChildModel(R.drawable.img_4, "Cat4"))
-        }
         val childRecyclerViewAdapter =
             ChildRecyclerViewAdapter(arrayList)
         holder.childRecyclerView.adapter = childRecyclerViewAdapter
     }
+
 }

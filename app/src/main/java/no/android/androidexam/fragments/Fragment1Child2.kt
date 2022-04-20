@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -57,7 +58,9 @@ class Fragment1Child2: Fragment() {
 
     private fun onClick(v: View) {
         GlobalScope.launch(Dispatchers.IO) {
-            runBlocking {apiClient.getByWebUrl(link, v.tag as String) }
+            var result = runBlocking {apiClient.getByWebUrl(link, v.tag as String) }
+            requireActivity().supportFragmentManager.setFragmentResult("requestKey2", bundleOf("bundleKey2" to result))
+
         }
     }
 }
