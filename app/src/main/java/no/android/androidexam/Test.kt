@@ -1,6 +1,7 @@
 package no.android.androidexam
 
 import android.content.Context
+import android.media.Image
 import android.util.Log
 
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 
 class ImageLinks(val storeLink: String, val thumbNailLink: String)
+class ResData(val originalLink: String, val searchEngine: String, val links: ArrayList<ImageLinks>)
 
 class ParentModel(private var movieCategory: String) {
     fun movieCategory(): String {

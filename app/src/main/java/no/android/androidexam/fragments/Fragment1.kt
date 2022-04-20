@@ -29,8 +29,6 @@ class Fragment1 : Fragment() {
 
         switchFragment(view.findViewWithTag("1"))
 
-
-
         return view
     }
 

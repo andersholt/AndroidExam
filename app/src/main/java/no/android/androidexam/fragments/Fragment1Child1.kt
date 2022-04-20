@@ -29,20 +29,39 @@ class Fragment1Child1: Fragment() {
     private var imageUri: String = ""
     lateinit var image: ImageView
     private var apiClient = ApiClient()
+    lateinit var bitmapImage: Bitmap
 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("image", imageUri)
+        Log.i("Saving", "saving")
+        if (this::bitmapImage.isInitialized){
+            outState.putBundle("stateKey", bundleOf("bitmapKey" to bitmapImage))
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.fragment1_child1, container, false)
+
+
+        if (savedInstanceState != null){
+            bitmapImage = savedInstanceState.getBundle("stateKey")?.get("bitmapKey") as Bitmap;
+            image = view.findViewById(R.id.image)
+            image.layoutParams.apply {
+                width = bitmapImage.width
+                height = bitmapImage.height
+            }.also { it -> image.layoutParams = it }
+            image.setImageBitmap(bitmapImage)
+            image.background = BitmapDrawable(resources, bitmapImage)
+        }
+
+
+
         Toast.makeText(activity, "Fragment 1 child 1", Toast.LENGTH_SHORT).show()
 
-        val view = inflater.inflate(R.layout.fragment1_child1, container, false)
         val button = view.findViewById<Button>(R.id.select_image)
         button.setOnClickListener {
             image = view.findViewById(R.id.image)
@@ -58,9 +77,7 @@ class Fragment1Child1: Fragment() {
 
         imageUri = it.data?.data.toString()
 
-        Log.i("Image", imageUri)
-
-        val bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
+        bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
 
         image.layoutParams.apply {
 
@@ -71,7 +88,7 @@ class Fragment1Child1: Fragment() {
         image.setImageBitmap(bitmapImage)
         image.background = BitmapDrawable(resources, bitmapImage)
 
-//Crop Before this -- Create a method
+        //Crop Before this -- Create a method
         val sd: File? = context?.cacheDir
         val folder = File(sd, "/myfolder/")
         if (!folder.exists()) {
@@ -98,7 +115,9 @@ class Fragment1Child1: Fragment() {
         Log.i("Name", fileName.name)
 
         GlobalScope.launch(Dispatchers.IO) {
+
             val result = runBlocking {apiClient.getBySendingImage(fileName)}
+
             parentFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to result))
         }
     }
