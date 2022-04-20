@@ -1,10 +1,14 @@
 package no.android.androidexam
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import no.android.androidexam.fragments.Fragment1
+import no.android.androidexam.fragments.Fragment2
+import no.android.androidexam.fragments.Fragment3
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +38,6 @@ class MainActivity : AppCompatActivity() {
             "Activity switchFragment. Tag" + v.tag.toString(),
             Toast.LENGTH_SHORT
         ).show()
-
 
         if(Integer.parseInt(v.tag.toString()) == 1) {
             fragmentManager

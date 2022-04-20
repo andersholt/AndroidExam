@@ -17,15 +17,16 @@ class ApiClient {
         var listOfLinks = ArrayList<ImageLinks>()
         AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/" + searchEngine)
             .addQueryParameter("url", imageUrl)
-            .setPriority(Priority.LOW)
+            .setPriority(Priority.HIGH)
             .build()
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray) {
                     for (i in 0 until response.length()) {
                         val element = response.getJSONObject(i)
                         val imagelink = ImageLinks(element.get("thumbnail_link") as String,
-                            element.get("thumbnail_link") as String
+                            element.get("store_link") as String
                         )
+
                         listOfLinks.add(imagelink)
                     }
                     Log.i("Response: ", listOfLinks.toString())
@@ -40,6 +41,7 @@ class ApiClient {
     suspend fun getBySendingImage(file: File): String {
 
         var result = ""
+        var done = true
         val request: String = withContext(Dispatchers.IO) {
             AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
                 .addMultipartFile("image", file)
@@ -49,6 +51,7 @@ class ApiClient {
                     override fun onResponse(response: String) {
                         Log.i("Response", response)
                         result = response
+                        done = false
                     }
 
                     override fun onError(error: ANError) {
@@ -56,7 +59,9 @@ class ApiClient {
                     }
                 }).toString()
         }
-        delay(3000)
+        while(done){
+            delay(10)
+        }
         return result
     }
 }                    

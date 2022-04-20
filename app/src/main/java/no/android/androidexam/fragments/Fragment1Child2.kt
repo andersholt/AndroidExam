@@ -1,6 +1,5 @@
-package no.android.androidexam
+package no.android.androidexam.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import no.android.androidexam.ApiClient
+import no.android.androidexam.R
 
 
 class Fragment1Child2: Fragment() {
@@ -57,7 +58,9 @@ class Fragment1Child2: Fragment() {
 
     private fun onClick(v: View) {
         GlobalScope.launch(Dispatchers.IO) {
-            runBlocking {apiClient.getByWebUrl(link, v.tag as String) }
+            var result = runBlocking {apiClient.getByWebUrl(link, v.tag as String) }
+            requireActivity().supportFragmentManager.setFragmentResult("requestKey2", bundleOf("bundleKey2" to result))
+
         }
     }
 }

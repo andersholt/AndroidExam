@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    tools:ignore="GoogleAppIndexingWarning">
-
+    tools:ignore="GoogleAppIndexingWarning"
+    android:configChanges="uiMode">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -58,7 +58,9 @@
     <FrameLayout
         android:id="@+id/fragment_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-    </FrameLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

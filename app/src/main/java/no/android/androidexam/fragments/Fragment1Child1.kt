@@ -1,4 +1,4 @@
-package no.android.androidexam
+package no.android.androidexam.fragments
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,6 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
+import no.android.androidexam.ApiClient
+import no.android.androidexam.R
+import no.android.androidexam.UriToBitmap
+import no.android.androidexam.getBitmap
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -67,7 +71,7 @@ class Fragment1Child1: Fragment() {
         image.setImageBitmap(bitmapImage)
         image.background = BitmapDrawable(resources, bitmapImage)
 
-
+//Crop Before this -- Create a method
         val sd: File? = context?.cacheDir
         val folder = File(sd, "/myfolder/")
         if (!folder.exists()) {
