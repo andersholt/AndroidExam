@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import no.android.androidexam.fragment1.Fragment1
 
 
 class MainActivity : AppCompatActivity() {

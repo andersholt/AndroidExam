@@ -1,4 +1,4 @@
-package no.android.androidexam
+package no.android.androidexam.fragment1
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,6 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
+import no.android.androidexam.ApiClient
+import no.android.androidexam.R
+import no.android.androidexam.UriToBitmap
+import no.android.androidexam.getBitmap
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -50,7 +54,8 @@ class Fragment1Child1: Fragment() {
         return view
     }
 
-    private var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+    private var startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
 
         imageUri = it.data?.data.toString()
 
@@ -62,7 +67,7 @@ class Fragment1Child1: Fragment() {
 
             width = bitmapImage.width
             height = bitmapImage.height
-        }.also { it -> image.layoutParams = it }
+        }.also { image.layoutParams = it }
 
         image.setImageBitmap(bitmapImage)
         image.background = BitmapDrawable(resources, bitmapImage)
