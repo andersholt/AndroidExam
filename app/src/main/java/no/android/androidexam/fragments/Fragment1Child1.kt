@@ -24,7 +24,7 @@ import java.io.IOException
 import java.lang.NullPointerException
 
 
-class Fragment1Child1: Fragment() {
+class Fragment1Child1 : Fragment() {
     private var imageUri: String = ""
     lateinit var image: CropImageView2
     private var apiClient = ApiClient()
@@ -39,7 +39,7 @@ class Fragment1Child1: Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.i("Saving", "saving")
-        if (this::bitmapImage.isInitialized){
+        if (this::bitmapImage.isInitialized) {
             outState.putBundle("stateKey", bundleOf("bitmapKey" to bitmapImage))
         }
     }
@@ -51,7 +51,7 @@ class Fragment1Child1: Fragment() {
         val view = inflater.inflate(R.layout.fragment1_child1, container, false)
 
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             bitmapImage = savedInstanceState.getBundle("stateKey")?.get("bitmapKey") as Bitmap;
             image = view.findViewById(R.id.image)
             image.layoutParams.apply {
@@ -77,9 +77,9 @@ class Fragment1Child1: Fragment() {
         }
 
         image = view.findViewById(R.id.image)
-        image.setListeners(object: View.OnClickListener{
+        image.setListeners(object : View.OnClickListener {
             override fun onClick(p0: View?) {}
-        }, object: OnImageSizeChangedListener{
+        }, object : OnImageSizeChangedListener {
             override fun onImageSizeChanged(rec: Rect) {
                 Log.i("Rect tag", rec.flattenToString())
 
@@ -89,7 +89,12 @@ class Fragment1Child1: Fragment() {
         })
 
         submitButton.setOnClickListener {
-            submitCroppedImage()
+            try {
+                submitCroppedImage()
+            }catch (e: UninitializedPropertyAccessException){
+
+                Toast.makeText(activity, "Please choose an Image", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -97,43 +102,51 @@ class Fragment1Child1: Fragment() {
         return view
     }
 
-    private var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+    private var startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
 
-        imageUri = it.data?.data.toString()
+            imageUri = it.data?.data.toString()
 
-        Log.i("Image", imageUri)
+            Log.i("Image", imageUri)
 
-        bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
+            bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
 
-        image.layoutParams.apply {
+            image.layoutParams.apply {
 
-            width = bitmapImage.width
-            height = bitmapImage.height
-        }.also { it -> image.layoutParams = it }
+                width = bitmapImage.width
+                height = bitmapImage.height
+            }.also { it -> image.layoutParams = it }
 
-        image.setImageBitmap(bitmapImage)
-        image.background = BitmapDrawable(resources, bitmapImage)
-    //Crop Before this -- Create a method
+            image.setImageBitmap(bitmapImage)
+            image.background = BitmapDrawable(resources, bitmapImage)
+            //Crop Before this -- Create a method
 
-    }
+        }
 
-    private fun submitCroppedImage(){
+    private fun submitCroppedImage() {
         var rect = actualCropRect
 
         try {
 
-            var bufferBitmap = Bitmap.createBitmap(bitmapImage, rect?.left!!, rect?.top!!,  rect?.right!!, rect?.bottom!!)
+            var bufferBitmap = Bitmap.createBitmap(
+                bitmapImage,
+                rect?.left!!,
+                rect?.top!!,
+                rect?.right!!,
+                rect?.bottom!!
+            )
 
             uploadBitmap(bufferBitmap)
 
-        }catch (e : NullPointerException ){
+        } catch (e: NullPointerException) {
 
             uploadBitmap(bitmapImage)
+
         }
 
     }
 
-    private fun uploadBitmap(bitmapImage : Bitmap) {
+    private fun uploadBitmap(bitmapImage: Bitmap) {
         val sd: File? = context?.cacheDir
         val folder = File(sd, "/myfolder/")
         if (!folder.exists()) {
