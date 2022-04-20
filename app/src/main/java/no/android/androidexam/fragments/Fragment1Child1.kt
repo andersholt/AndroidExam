@@ -121,7 +121,7 @@ class Fragment1Child1: Fragment() {
         var imgW = image.width
         var imgH = image.height
 
-        var bufferBitmap = Bitmap.createBitmap(bitmapImage, rect?.left!!, rect?.top!!,  imgW -  rect?.right!! - 1 , imgH - rect?.bottom!! - 1)
+        var bufferBitmap = Bitmap.createBitmap(bitmapImage, rect?.left!!, rect?.top!!,  rect?.right!!, rect?.bottom!!)
 
         uploadBitmap(bufferBitmap)
 
