@@ -3,6 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/activity_main.xml" value="0.13949275362318841" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/child_recyclerview_items.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/childrecycle.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/fragment1.xml" value="0.18645833333333334" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/fragment1_child1.xml" value="0.33" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/fragment1_child2.xml" value="0.21302083333333333" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/fragment2.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/fragment3.xml" value="0.22" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/imagerow.xml" value="0.22" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/parent_recyclerview_items.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/test.xml" value="0.22" />
         <entry key="..\:/Code/Skole/4. Programmering/Android/AndroidExam/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26614583333333336" />
         <entry key="..\:/Code/Skole/4. Programmering/Android/AndroidExam/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Code/Skole/4. Programmering/Android/AndroidExam/app/src/main/res/layout/fragment1.xml" value="0.1" />
