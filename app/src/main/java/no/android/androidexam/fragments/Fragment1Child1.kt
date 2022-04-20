@@ -2,6 +2,7 @@ package no.android.androidexam.fragments
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
@@ -15,10 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
-import no.android.androidexam.ApiClient
-import no.android.androidexam.R
-import no.android.androidexam.UriToBitmap
-import no.android.androidexam.getBitmap
+import no.android.androidexam.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -66,7 +64,6 @@ class Fragment1Child1: Fragment() {
 
         Toast.makeText(activity, "Fragment 1 child 1", Toast.LENGTH_SHORT).show()
 
-        val view = inflater.inflate(R.layout.fragment1_child1, container, false)
         val button = view.findViewById<Button>(R.id.select_image)
         val submitButton = view.findViewById<Button>(R.id.upload_cropped_image)
 

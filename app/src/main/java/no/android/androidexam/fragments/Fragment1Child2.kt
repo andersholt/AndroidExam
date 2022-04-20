@@ -61,12 +61,12 @@ class Fragment1Child2: Fragment() {
 
     private fun onClick(v: View) {
         GlobalScope.launch(Dispatchers.IO) {
-            val intent = Intent(activity, SplashActivity::class.java)
-            startActivity(intent)
+            //val intent = Intent(activity, SplashActivity::class.java)
+            //startActivity(intent)
 
             var result = runBlocking {apiClient.getByWebUrl(link, v.tag as String) }
             val resData = ResData(link, v.tag as String, result)
-            activity?.finish()
+            //activity?.finish()
 
             requireActivity().supportFragmentManager.setFragmentResult("requestKey2", bundleOf("bundleKey2" to resData))
         }
