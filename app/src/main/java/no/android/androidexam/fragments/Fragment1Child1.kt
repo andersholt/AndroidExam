@@ -21,6 +21,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.NullPointerException
 
 
 class Fragment1Child1: Fragment() {
@@ -118,14 +119,17 @@ class Fragment1Child1: Fragment() {
 
     private fun submitCroppedImage(){
         var rect = actualCropRect
-        var imgW = image.width
-        var imgH = image.height
 
-        var bufferBitmap = Bitmap.createBitmap(bitmapImage, rect?.left!!, rect?.top!!,  rect?.right!!, rect?.bottom!!)
+        try {
 
-        uploadBitmap(bufferBitmap)
+            var bufferBitmap = Bitmap.createBitmap(bitmapImage, rect?.left!!, rect?.top!!,  rect?.right!!, rect?.bottom!!)
 
-        //hvis det ikke er cropped bare send bitmapImagew
+            uploadBitmap(bufferBitmap)
+
+        }catch (e : NullPointerException ){
+
+            uploadBitmap(bitmapImage)
+        }
 
     }
 
