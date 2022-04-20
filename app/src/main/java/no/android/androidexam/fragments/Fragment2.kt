@@ -6,24 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import no.android.androidexam.ImageLinks
-import no.android.androidexam.ParentModel
-import no.android.androidexam.ParentRecyclerViewAdapter
-import no.android.androidexam.R
+import no.android.androidexam.*
 
 
 class Fragment2 : Fragment() {
-    private var parentRecyclerView: RecyclerView? = null
-    private var parentAdapter: RecyclerView.Adapter<*>? = null
-    var parentModelArrayList: ArrayList<ParentModel> = ArrayList()
-    private var parentLayoutManager: RecyclerView.LayoutManager? = null
-    lateinit var result: ArrayList<ImageLinks>
+    private var childRecyclerView: RecyclerView? = null
+    private var childAdapter: RecyclerView.Adapter<*>? = null
+    var childModelArrayList: ArrayList<ImageLinks> = ArrayList()
+    private var childLayoutManager: RecyclerView.LayoutManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        parentModelArrayList.add(ParentModel("Category1"))
+        childModelArrayList.add(ImageLinks("https://user-images.githubusercontent.com/12670730/113008567-6ebdcb80-9177-11eb-91bd-6863196d9cd3.png", "https://user-images.githubusercontent.com/12670730/113008567-6ebdcb80-9177-11eb-91bd-6863196d9cd3.png"))
 
     }
     override fun onCreateView(
@@ -37,14 +34,14 @@ class Fragment2 : Fragment() {
         ) { requestKey, bundle ->
             res = bundle.get("bundleKey2") as ArrayList<ImageLinks>
 
-            parentRecyclerView = view?.findViewById(R.id.Parent_recyclerView)
-            parentRecyclerView!!.setHasFixedSize(true)
-            parentLayoutManager = LinearLayoutManager(context)
-            parentAdapter =
-                context?.let { ParentRecyclerViewAdapter(parentModelArrayList, it, res) }
-            parentRecyclerView!!.layoutManager = parentLayoutManager
-            parentRecyclerView!!.adapter = parentAdapter
-            parentAdapter?.notifyDataSetChanged()
+            childRecyclerView = view?.findViewById(R.id.Parent_recyclerView1)
+            childRecyclerView!!.setHasFixedSize(true)
+            childLayoutManager = GridLayoutManager(activity, 2)
+            childAdapter =
+                context?.let { ChildRecyclerViewAdapter( res) }
+            childRecyclerView!!.layoutManager = childLayoutManager
+            childRecyclerView!!.adapter = childAdapter
+            childAdapter?.notifyDataSetChanged()
         }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment2, container, false)

@@ -5,19 +5,39 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F171E"
+    android:background="#FFFFFF"
     tools:context=".MainActivity"
     >
 
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Parent_recyclerView"
+        android:id="@+id/Parent_recyclerView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:padding="4dp"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loaded_image" />
+
+    <TextView
+        android:id="@+id/search_engine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Search Engine"
+        android:textSize="25sp"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/loaded_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_engine" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
