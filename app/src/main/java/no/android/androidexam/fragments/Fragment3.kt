@@ -36,7 +36,7 @@ class Fragment3 : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment3, container, false)
-
+/*
         parentRecyclerView = view?.findViewById(R.id.Parent_recyclerView);
         parentRecyclerView!!.setHasFixedSize(true)
         parentLayoutManager = LinearLayoutManager(context)
@@ -44,6 +44,8 @@ class Fragment3 : Fragment() {
         parentRecyclerView!!.layoutManager = parentLayoutManager
         parentRecyclerView!!.adapter = ParentAdapter
         ParentAdapter?.notifyDataSetChanged()
+
+ */
 
         return view
     }

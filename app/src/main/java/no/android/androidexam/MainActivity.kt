@@ -9,17 +9,19 @@ import androidx.fragment.app.FragmentManager
 import no.android.androidexam.fragments.Fragment1
 import no.android.androidexam.fragments.Fragment2
 import no.android.androidexam.fragments.Fragment3
+import android.widget.ProgressBar
+import android.widget.Spinner
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var fragmentManager: FragmentManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         fragmentManager = supportFragmentManager
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val spinner: ProgressBar = findViewById(R.id.progressBar1)
+        spinner.visibility = View.GONE
         fragmentManager
             .beginTransaction()
             .replace(

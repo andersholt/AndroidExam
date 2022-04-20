@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
-import no.android.androidexam.ApiClient
-import no.android.androidexam.R
-import no.android.androidexam.UriToBitmap
-import no.android.androidexam.getBitmap
+import no.android.androidexam.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -57,7 +55,6 @@ class Fragment1Child1: Fragment() {
             image.setImageBitmap(bitmapImage)
             image.background = BitmapDrawable(resources, bitmapImage)
         }
-
 
 
         Toast.makeText(activity, "Fragment 1 child 1", Toast.LENGTH_SHORT).show()
@@ -114,10 +111,10 @@ class Fragment1Child1: Fragment() {
         Log.i("Location", fileName.path.toString())
         Log.i("Name", fileName.name)
 
+        val splashActivity = SplashActivity()
+
         GlobalScope.launch(Dispatchers.IO) {
-
             val result = runBlocking {apiClient.getBySendingImage(fileName)}
-
             parentFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to result))
         }
     }

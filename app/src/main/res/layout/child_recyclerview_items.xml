@@ -19,14 +19,4 @@
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MovieTitle"
-        android:textColor="#C4DFEF"
-        android:textSize="12sp"
-        android:id="@+id/movie_name"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="center" />
 </LinearLayout>

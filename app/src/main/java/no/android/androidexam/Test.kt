@@ -2,6 +2,7 @@ package no.android.androidexam
 
 import android.content.Context
 import android.media.Image
+import android.os.Parcelable
 import android.util.Log
 
 import android.view.LayoutInflater
@@ -14,9 +15,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
+import kotlinx.parcelize.Parcelize
+@Parcelize
+class ImageLinks(val storeLink: String, val thumbNailLink: String):Parcelable
+@Parcelize
+class ResData(
+    val originalLink: String? = "", val searchEngine: String? = "",
+    val links: ArrayList<ImageLinks> = ArrayList(),
+):Parcelable
 
-class ImageLinks(val storeLink: String, val thumbNailLink: String)
-class ResData(val originalLink: String, val searchEngine: String, val links: ArrayList<ImageLinks>)
 
 class ParentModel(private var movieCategory: String) {
     fun movieCategory(): String {
@@ -50,11 +57,10 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>) :
 
 }
 
-
 class ParentRecyclerViewAdapter(
     private val parentModelArrayList: ArrayList<ParentModel>,
     private var cxt: Context,
-    private val arrayList: ArrayList<ImageLinks> = ArrayList()
+    private val resData: ResData
 ) :
     RecyclerView.Adapter<ParentRecyclerViewAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -82,7 +88,7 @@ class ParentRecyclerViewAdapter(
         holder.category.text = currentItem.movieCategory()
 
         val childRecyclerViewAdapter =
-            ChildRecyclerViewAdapter(arrayList)
+            ChildRecyclerViewAdapter(resData.links)
         holder.childRecyclerView.adapter = childRecyclerViewAdapter
     }
 

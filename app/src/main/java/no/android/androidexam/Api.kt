@@ -6,6 +6,7 @@ import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
+import com.androidnetworking.interfaces.UploadProgressListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -41,8 +42,8 @@ class ApiClient {
     suspend fun getBySendingImage(file: File): String {
 
         var result = ""
-        var done = true
-        val request: String = withContext(Dispatchers.IO) {
+        var loading = true
+        withContext(Dispatchers.IO) {
             AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
                 .addMultipartFile("image", file)
                 .setPriority(Priority.HIGH)
@@ -51,7 +52,7 @@ class ApiClient {
                     override fun onResponse(response: String) {
                         Log.i("Response", response)
                         result = response
-                        done = false
+                        loading = false
                     }
 
                     override fun onError(error: ANError) {
@@ -59,7 +60,7 @@ class ApiClient {
                     }
                 }).toString()
         }
-        while(done){
+        while(loading){
             delay(10)
         }
         return result

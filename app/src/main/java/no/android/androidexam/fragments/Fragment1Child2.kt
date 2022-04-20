@@ -1,5 +1,6 @@
 package no.android.androidexam.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import no.android.androidexam.ApiClient
 import no.android.androidexam.R
+import no.android.androidexam.ResData
+import no.android.androidexam.SplashActivity
 
 
 class Fragment1Child2: Fragment() {
@@ -58,9 +61,14 @@ class Fragment1Child2: Fragment() {
 
     private fun onClick(v: View) {
         GlobalScope.launch(Dispatchers.IO) {
-            var result = runBlocking {apiClient.getByWebUrl(link, v.tag as String) }
-            requireActivity().supportFragmentManager.setFragmentResult("requestKey2", bundleOf("bundleKey2" to result))
+            val intent = Intent(activity, SplashActivity::class.java)
+            startActivity(intent)
 
+            var result = runBlocking {apiClient.getByWebUrl(link, v.tag as String) }
+            val resData = ResData(link, v.tag as String, result)
+            activity?.finish()
+
+            requireActivity().supportFragmentManager.setFragmentResult("requestKey2", bundleOf("bundleKey2" to resData))
         }
     }
 }
