@@ -161,7 +161,7 @@ class Fragment1Child1 : Fragment() {
 
         try {
             val outputStream = FileOutputStream(fileName.toString())
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
             outputStream.close()
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
@@ -174,6 +174,7 @@ class Fragment1Child1 : Fragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
             val result = runBlocking { apiClient.getBySendingImage(fileName) }
+            
             parentFragmentManager.setFragmentResult(
                 "requestKey",
                 bundleOf("bundleKey" to result)

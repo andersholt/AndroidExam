@@ -49,6 +49,11 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>) :
         val currentItem = childModelArrayList[position]
         Log.i("link", currentItem.storeLink)
         Picasso.get().load(currentItem.storeLink).into(holder.heroImage);
+        holder.heroImage.setOnClickListener{
+            Log.i("CLicked", currentItem.storeLink)
+        }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -88,8 +93,33 @@ class ParentRecyclerViewAdapter(
         holder.category.text = currentItem.movieCategory()
 
         val childRecyclerViewAdapter =
-            ChildRecyclerViewAdapter(resData.links)
+            ChildRecyclerViewAdapterFrag3(resData.links)
         holder.childRecyclerView.adapter = childRecyclerViewAdapter
+    }
+}
+
+class ChildRecyclerViewAdapterFrag3(arrayList: ArrayList<ImageLinks>) :
+    RecyclerView.Adapter<ChildRecyclerViewAdapterFrag3.MyViewHolder>() {
+    private var childModelArrayList: ArrayList<ImageLinks> = arrayList
+
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var heroImage: ImageView = itemView.findViewById(R.id.hero_image)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.child_recyclerview_items, parent, false)
+        return MyViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val currentItem = childModelArrayList[position]
+        Log.i("link", currentItem.storeLink)
+        Picasso.get().load(currentItem.storeLink).into(holder.heroImage);
+    }
+
+    override fun getItemCount(): Int {
+        return childModelArrayList.size
     }
 
 }
