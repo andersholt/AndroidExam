@@ -41,10 +41,9 @@ class Fragment2 : Fragment() {
             "requestKey2",
             viewLifecycleOwner
         ) { requestKey, bundle ->
-            res = bundle.get("bundleKey2") as ResData
+                res = bundle.get("bundleKey2") as ResData
                 val imageView:ImageView = view.findViewById(R.id.loaded_image)
-                Picasso.get().load(res.originalLink).into(imageView);
-
+                imageView.setImageBitmap(res.originalImage?.bitmap)
                 childRecyclerView = view?.findViewById(R.id.Parent_recyclerView1)
                 childRecyclerView!!.setHasFixedSize(true)
                 childLayoutManager = GridLayoutManager(activity, 2)
@@ -54,15 +53,13 @@ class Fragment2 : Fragment() {
                 childRecyclerView!!.adapter = childAdapter
                 childAdapter?.notifyDataSetChanged()
 
-
                 val textView:TextView = view.findViewById(R.id.search_engine)
-                textView.text = "Searhed with: " + res.searchEngine
+                textView.text = "Searched with: " + res.searchEngine
         }
 
         val button: Button = view.findViewById(R.id.submitButton)
 
-
-
         return view
    }
 }
+

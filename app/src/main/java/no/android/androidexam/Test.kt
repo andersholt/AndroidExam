@@ -1,27 +1,42 @@
 package no.android.androidexam
 
 import android.content.Context
-import android.media.Image
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Parcelable
 import android.util.Log
-
 import android.view.LayoutInflater
 import android.view.View
-
 import android.view.ViewGroup
 import android.widget.ImageView
-
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.drawToBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.parcelize.Parcelize
+
+
 @Parcelize
 class ImageLinks(val storeLink: String, val thumbNailLink: String):Parcelable
 @Parcelize
 class ResData(
-    val originalLink: String? = "", val searchEngine: String? = "",
+    val originalImage: OriginalImage?, val searchEngine: String? = "",
     val links: ArrayList<ImageLinks> = ArrayList(),
+):Parcelable
+
+@Parcelize
+class OriginalImage(
+    val bitmap: Bitmap?,
+    val link: String? = ""
+):Parcelable
+
+
+@Parcelize
+class ListOfBitmaps(
+    val originalImage: Bitmap,
+    val resBitmaps: ArrayList<Bitmap> = ArrayList(),
 ):Parcelable
 
 
@@ -34,6 +49,13 @@ class ParentModel(private var movieCategory: String) {
 class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>) :
     RecyclerView.Adapter<ChildRecyclerViewAdapter.MyViewHolder>() {
     private var childModelArrayList: ArrayList<ImageLinks> = arrayList
+    interface OnClickListener {
+        fun onClick(clickedItem: Bitmap?)
+    }
+
+    private var mCallback: OnClickListener? = null
+    private var list: ArrayList<Bitmap> = ArrayList()
+
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var heroImage: ImageView = itemView.findViewById(R.id.hero_image)
@@ -47,19 +69,29 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = childModelArrayList[position]
+        var clicked = false
         Log.i("link", currentItem.storeLink)
         Picasso.get().load(currentItem.storeLink).into(holder.heroImage);
+
+
         holder.heroImage.setOnClickListener{
-            Log.i("CLicked", currentItem.storeLink)
+            if(clicked){
+                holder.heroImage.setColorFilter(Color.RED, PorterDuff.Mode.DARKEN)
+                clicked = false
+
+            }else{
+                holder.heroImage.setColorFilter(Color.RED, PorterDuff.Mode.LIGHTEN)
+                holder.itemView.setOnClickListener { if (mCallback != null) mCallback!!.onClick(holder.heroImage.drawToBitmap()) }
+                clicked = true
+            }
+
+
         }
-
-
     }
 
     override fun getItemCount(): Int {
         return childModelArrayList.size
     }
-
 }
 
 class ParentRecyclerViewAdapter(

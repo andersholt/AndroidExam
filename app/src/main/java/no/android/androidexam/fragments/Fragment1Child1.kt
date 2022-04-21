@@ -135,11 +135,9 @@ class Fragment1Child1 : Fragment() {
                 rect?.right!!,
                 rect?.bottom!!
             )
-
             uploadBitmap(bufferBitmap)
 
         } catch (e: NullPointerException) {
-
             uploadBitmap(bitmapImage)
 
         }
@@ -147,6 +145,7 @@ class Fragment1Child1 : Fragment() {
     }
 
     private fun uploadBitmap(bitmapImage: Bitmap) {
+
         val sd: File? = context?.cacheDir
         val folder = File(sd, "/myfolder/")
         if (!folder.exists()) {
@@ -174,12 +173,14 @@ class Fragment1Child1 : Fragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
             val result = runBlocking { apiClient.getBySendingImage(fileName) }
-            
+
+            val originalImage = OriginalImage(bitmapImage, result)
             parentFragmentManager.setFragmentResult(
                 "requestKey",
-                bundleOf("bundleKey" to result)
+                bundleOf("bundleKey" to originalImage)
             )
         }
     }
+
 }
 

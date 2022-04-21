@@ -1,6 +1,5 @@
 package no.android.androidexam.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +13,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import no.android.androidexam.ApiClient
-import no.android.androidexam.R
-import no.android.androidexam.ResData
-import no.android.androidexam.SplashActivity
+import no.android.androidexam.*
+import java.util.*
 
 
 class Fragment1Child2: Fragment() {
-    private lateinit var link: String
+    private lateinit var link: OriginalImage
     val apiClient = ApiClient()
 
 
@@ -34,11 +31,9 @@ class Fragment1Child2: Fragment() {
         val linkText:TextView = view.findViewById(R.id.linkText)
 
         parentFragmentManager.setFragmentResultListener("requestKey", viewLifecycleOwner) { requestKey, bundle ->
-            val result = bundle.getString("bundleKey")
-            if (result != null) {
-                link = result
-            }
-            linkText.text = result
+            val result: OriginalImage? = bundle.getParcelable<OriginalImage>("bundleKey")
+            link = result!!
+            linkText.text = result.link
         }
 
 
@@ -60,15 +55,25 @@ class Fragment1Child2: Fragment() {
     }
 
     private fun onClick(v: View) {
-        GlobalScope.launch(Dispatchers.IO) {
-            //val intent = Intent(activity, SplashActivity::class.java)
-            //startActivity(intent)
+        if(this::link.isInitialized){
+            GlobalScope.launch(Dispatchers.IO) {
+                //val intent = Intent(activity, SplashActivity::class.java)
+                //startActivity(intent)
 
-            var result = runBlocking {apiClient.getByWebUrl(link, v.tag as String) }
-            val resData = ResData(link, v.tag as String, result)
-            //activity?.finish()
+                var result = runBlocking {apiClient.getByWebUrl(link.link.toString(), v.tag as String) }
+                val resData = ResData(link, v.tag as String, result)
+                //activity?.finish()
 
-            requireActivity().supportFragmentManager.setFragmentResult("requestKey2", bundleOf("bundleKey2" to resData))
+                requireActivity().supportFragmentManager.setFragmentResult("requestKey2", bundleOf("bundleKey2" to resData))
+            }
         }
+        else{
+            Toast.makeText(activity, "No image link detected", Toast.LENGTH_LONG).show()
+        }
+
     }
+}
+
+interface OnTextClickListener {
+    fun onTextClick(data: Objects)
 }
