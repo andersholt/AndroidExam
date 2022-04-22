@@ -44,24 +44,30 @@ class Fragment3 : Fragment() {
             null,null,null,null,null,null
         )
 
-        val newListOfBitmaps = ArrayList<Bitmap>()
 
         while (cursor.moveToNext()){
             val bitmapImage = cursor.getBlob(cursor.getColumnIndexOrThrow("bitmapImage"))
             val parentId = cursor.getInt(cursor.getColumnIndexOrThrow("parentId"))
             val bitmap = BitmapFactory.decodeByteArray(bitmapImage,0,bitmapImage.size)
-            var foreignkeyExists = false
-            for (item in listOfBitmaps){
-                if(item.foreignKey.equals(parentId)){
-                    item.bitmaps.add(bitmap)
-                    foreignkeyExists = true
-                }
-            }
-            if(foreignkeyExists != true){
+            var edited = false
+            if(listOfBitmaps.size == 0){
+                val newListOfBitmaps = ArrayList<Bitmap>()
                 newListOfBitmaps.add(bitmap)
                 val listOfBitmaps2 = ListOfBitmaps(parentId, newListOfBitmaps)
                 listOfBitmaps.add(listOfBitmaps2)
-
+                edited = true
+            }
+            for(item in listOfBitmaps){
+                if (item.foreignKey == parentId){
+                    item.bitmaps.add(bitmap)
+                    edited = true
+                }
+            }
+            if(!edited){
+                val newListOfBitmaps = ArrayList<Bitmap>()
+                newListOfBitmaps.add(bitmap)
+                val listOfBitmaps2 = ListOfBitmaps(parentId, newListOfBitmaps)
+                listOfBitmaps.add(listOfBitmaps2)
             }
         }
         cursor.close()

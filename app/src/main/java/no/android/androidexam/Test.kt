@@ -55,7 +55,6 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>, var fragmentMan
     RecyclerView.Adapter<ChildRecyclerViewAdapter.MyViewHolder>() {
     private var childModelArrayList: ArrayList<ImageLinks> = arrayList
     private var list: ArrayList<Bitmap> = ArrayList()
-    private var indexList: ArrayList<Bitmap> = ArrayList()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var heroImage: ImageView = itemView.findViewById(R.id.hero_image)
@@ -124,17 +123,16 @@ class ParentRecyclerViewAdapter(
         val id = currentItem.parentId()
 
         for(item in listOfBitmaps){
+            Log.i("Items", item.foreignKey.toString())
 
-
-            if(item.foreignKey === id){
-                item.bitmaps.add(currentItem.parentBitmap())
+            if(item.foreignKey == id){
+                item.bitmaps.add(0, currentItem.parentBitmap())
                 holder.childRecyclerView.layoutManager = layoutManager
                 holder.childRecyclerView.setHasFixedSize(true)
                 val childRecyclerViewAdapter = ChildRecyclerViewAdapterFrag3(item.bitmaps)
                 holder.childRecyclerView.adapter = childRecyclerViewAdapter
             }
         }
-
     }
 }
 
