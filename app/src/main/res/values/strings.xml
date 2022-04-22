@@ -4,4 +4,20 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <!--buttons-->
+    <string name="select_image">Select your image</string>
+    <string name="search_image">Search your image</string>
+
+    <string name="upload_image">Upload Image</string>
+    <string name="search_engine">Choose Your Search Engine</string>
+
+    <!--main buttons-->
+    <string name="image_search">Image Search</string>
+    <string name="results">Results</string>
+    <string name="saved_data">Saved Results</string>
+    <!--main buttons-->
+
+    <!--buttons-->
+
 </resources>

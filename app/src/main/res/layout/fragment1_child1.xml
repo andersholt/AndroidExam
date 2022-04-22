@@ -18,7 +18,7 @@
         android:id="@+id/select_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Image"
+        android:text="@string/select_image"
         app:layout_constraintEnd_toStartOf="@+id/upload_cropped_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,9 +27,11 @@
         android:id="@+id/upload_cropped_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
         android:layout_marginEnd="4dp"
-        android:text="Upload Cropped Image"
+        android:text="@string/upload_image"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/select_image"
         app:layout_constraintTop_toTopOf="parent" />
 
 
