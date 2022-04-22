@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/activity_main.xml" value="0.13949275362318841" />
         <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/child_recyclerview_items.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/AndroidExam/app/src/main/res/layout/childrecycle.xml" value="0.36666666666666664" />
@@ -26,6 +25,7 @@
         <entry key="..\:/Users/ander/StudioProjects/AndroidExam/app/src/main/res/layout/child_recyclerview_items.xml" value="0.2" />
         <entry key="..\:/Users/ander/StudioProjects/AndroidExam/app/src/main/res/layout/childrecycle.xml" value="0.2109375" />
         <entry key="..\:/Users/ander/StudioProjects/AndroidExam/app/src/main/res/layout/fragment1.xml" value="0.12962962962962962" />
+        <entry key="..\:/Users/ander/StudioProjects/AndroidExam/app/src/main/res/layout/fragment1_child1.xml" value="0.24791666666666667" />
         <entry key="..\:/Users/ander/StudioProjects/AndroidExam/app/src/main/res/layout/fragment1_child2.xml" value="0.19427558257345492" />
         <entry key="..\:/Users/ander/StudioProjects/AndroidExam/app/src/main/res/layout/fragment2.xml" value="0.25" />
         <entry key="..\:/Users/ander/StudioProjects/AndroidExam/app/src/main/res/layout/fragment2nosearch.xml" value="0.2703125" />
@@ -40,7 +40,6 @@
         <entry key="app/src/main/res/layout/fragment1_child1.xml" value="0.227227783203125" />
         <entry key="app/src/main/res/layout/fragment1_child2.xml" value="0.28871002197265627" />
         <entry key="app/src/main/res/layout/fragment2.xml" value="0.24895833333333334" />
-        <entry key="app/src/main/res/layout/parent_recyclerview_items.xml" value="0.1" />
       </map>
     </option>
   </component>

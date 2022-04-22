@@ -13,7 +13,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import no.android.androidexam.*
+import no.android.androidexam.ApiClient
+import no.android.androidexam.OriginalImage
+import no.android.androidexam.R
+import no.android.androidexam.ResData
 import java.util.*
 
 
@@ -59,6 +62,7 @@ class Fragment1Child2: Fragment() {
             GlobalScope.launch(Dispatchers.IO) {
                 //val intent = Intent(activity, SplashActivity::class.java)
                 //startActivity(intent)
+
 
                 var result = runBlocking {apiClient.getByWebUrl(link.link.toString(), v.tag as String) }
                 val resData = ResData(link, v.tag as String, result)
