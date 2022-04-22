@@ -21,13 +21,12 @@ import java.io.ByteArrayOutputStream
 class Fragment2 : Fragment() {
     private var childRecyclerView: RecyclerView? = null
     private var childAdapter: RecyclerView.Adapter<*>? = null
-    var childModelArrayList: ArrayList<ImageLinks> = ArrayList()
+    private var childModelArrayList: ArrayList<ImageLinks> = ArrayList()
     private var childLayoutManager: RecyclerView.LayoutManager? = null
     lateinit var res: ResData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        savedInstanceState
         childModelArrayList.add(ImageLinks("https://user-images.githubusercontent.com/12670730/113008567-6ebdcb80-9177-11eb-91bd-6863196d9cd3.png", "https://user-images.githubusercontent.com/12670730/113008567-6ebdcb80-9177-11eb-91bd-6863196d9cd3.png"))
 
     }
@@ -36,9 +35,9 @@ class Fragment2 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment2, container, false)
+        val view = inflater.inflate(R.layout.fragment2, container, false)
         var bitmaps: ArrayList<Bitmap> = ArrayList()
-        var dbHelper = DbHelper(requireContext())
+        val dbHelper = DbHelper(requireContext())
 
         parentFragmentManager.setFragmentResultListener(
             "requestKey2",
@@ -67,15 +66,35 @@ class Fragment2 : Fragment() {
             Log.i("Bitmap", bitmaps.toString())
         }
         val button: Button = view.findViewById(R.id.submitButton)
+
         button.setOnClickListener {
             val stream = ByteArrayOutputStream()
             res.originalImage.bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
             val image = stream.toByteArray()
-            //This was an issue with sqllite on oneplus phones, had to open and close the app.
-            dbHelper.readableDatabase.close();
+
             dbHelper.writableDatabase.insert("bitmapsParent", null, ContentValues().apply {
                 put("bitmapImage", image)
             })
+            //Getting the primarykey
+            val cursor = dbHelper.writableDatabase.query(
+                "bitmapsParent",
+                arrayOf("id"),
+                null,null,null,null,"id desc","1"
+            )
+            cursor.moveToFirst()
+            val id = cursor.getInt(0)
+            cursor.close()
+
+            for (item in bitmaps) {
+                val stream = ByteArrayOutputStream()
+                item.compress(Bitmap.CompressFormat.PNG, 90, stream)
+                val image = stream.toByteArray()
+
+                dbHelper.writableDatabase.insert("bitmapsChildren", null, ContentValues().apply {
+                    put("bitmapImage", image)
+                    put("parentId", id)
+                })
+            }
 
         }
         return view

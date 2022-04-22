@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#0F171E">
-    <TextView
-        android:id="@+id/Movie_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Category"
-        android:textColor="#C4DFEF"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Child_RV"

@@ -37,14 +37,17 @@ class OriginalImage(
 
 @Parcelize
 class ListOfBitmaps(
-    val originalImage: Bitmap?,
-    val resBitmaps: ArrayList<Bitmap> = ArrayList(),
+    val foreignKey: Int,
+    val bitmaps: ArrayList<Bitmap> = ArrayList(),
 ):Parcelable
 
 
-class ParentModel(private var movieCategory: String) {
-    fun movieCategory(): String {
-        return movieCategory
+class ParentModel(private var imageBitmap: Bitmap, private var id: Int) {
+    fun parentBitmap(): Bitmap {
+        return imageBitmap
+    }
+    fun parentId(): Int {
+        return id
     }
 }
 
@@ -79,8 +82,8 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>, var fragmentMan
                 fragmentManager.setFragmentResult("selectedImages",  bundleOf("bitmapList" to list))
                 clicked = false
             }else{
-                heroImage.setColorFilter(Color.LTGRAY, PorterDuff.Mode.DARKEN)
                 bitmapImage = heroImage.drawToBitmap()
+                heroImage.setColorFilter(Color.LTGRAY, PorterDuff.Mode.DARKEN)
                 list.add(bitmapImage!!)
                 fragmentManager.setFragmentResult("selectedImages",  bundleOf("bitmapList" to list))
                 clicked = true
@@ -96,11 +99,10 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>, var fragmentMan
 class ParentRecyclerViewAdapter(
     private val parentModelArrayList: ArrayList<ParentModel>,
     private var cxt: Context,
-    private val resData: ResData
+    private val listOfBitmaps: ArrayList<ListOfBitmaps>
 ) :
     RecyclerView.Adapter<ParentRecyclerViewAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var category: TextView = itemView.findViewById(R.id.Movie_category)
         var childRecyclerView: RecyclerView = itemView.findViewById(R.id.Child_RV)
     }
 
@@ -119,19 +121,26 @@ class ParentRecyclerViewAdapter(
         val currentItem = parentModelArrayList[position]
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(cxt, LinearLayoutManager.HORIZONTAL, false)
-        holder.childRecyclerView.layoutManager = layoutManager
-        holder.childRecyclerView.setHasFixedSize(true)
-        holder.category.text = currentItem.movieCategory()
+        val id = currentItem.parentId()
 
-        val childRecyclerViewAdapter =
-            ChildRecyclerViewAdapterFrag3(resData.links)
-        holder.childRecyclerView.adapter = childRecyclerViewAdapter
+        for(item in listOfBitmaps){
+
+
+            if(item.foreignKey === id){
+                item.bitmaps.add(currentItem.parentBitmap())
+                holder.childRecyclerView.layoutManager = layoutManager
+                holder.childRecyclerView.setHasFixedSize(true)
+                val childRecyclerViewAdapter = ChildRecyclerViewAdapterFrag3(item.bitmaps)
+                holder.childRecyclerView.adapter = childRecyclerViewAdapter
+            }
+        }
+
     }
 }
 
-class ChildRecyclerViewAdapterFrag3(arrayList: ArrayList<ImageLinks>) :
+class ChildRecyclerViewAdapterFrag3(arrayList: ArrayList<Bitmap>) :
     RecyclerView.Adapter<ChildRecyclerViewAdapterFrag3.MyViewHolder>() {
-    private var childModelArrayList: ArrayList<ImageLinks> = arrayList
+    private var childModelArrayList: ArrayList<Bitmap> = arrayList
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var heroImage: ImageView = itemView.findViewById(R.id.hero_image)
@@ -145,8 +154,7 @@ class ChildRecyclerViewAdapterFrag3(arrayList: ArrayList<ImageLinks>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = childModelArrayList[position]
-        Log.i("link", currentItem.storeLink)
-        Picasso.get().load(currentItem.storeLink).into(holder.heroImage);
+        holder.heroImage.setImageBitmap(currentItem)
     }
 
     override fun getItemCount(): Int {
