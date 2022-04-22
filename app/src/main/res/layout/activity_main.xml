@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:onClick="switchFragment"
                 android:tag="1"
-                android:text="Select Image" />
+                android:text="@string/image_search" />
 
             <Button
                 android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                 android:layout_weight="1"
                 android:onClick="switchFragment"
                 android:tag="2"
-                android:text="Results" />
+                android:text="@string/results" />
 
             <Button
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:onClick="switchFragment"
                 android:tag="3"
-                android:text="Saved results" />
+                android:text="@string/saved_data" />
         </LinearLayout>
 
     </LinearLayout>

@@ -13,8 +13,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.WorkerThread
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
 import kotlinx.coroutines.*
 import no.android.androidexam.*
 import java.io.File
@@ -145,6 +149,24 @@ class Fragment1Child1 : Fragment() {
     }
 
     private fun uploadBitmap(bitmapImage: Bitmap) {
+        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.loading_layout) }
+        @WorkerThread
+        fun workerThread() {
+            context?.let {
+                ContextCompat.getMainExecutor(it).execute {
+                    loadingDialog?.show()
+                }
+            }
+        }
+
+        fun workerThreadStop() {
+            context?.let {
+                ContextCompat.getMainExecutor(it).execute {
+                    loadingDialog?.dismiss()
+                }
+            }
+        }
+
 
         val sd: File? = context?.cacheDir
         val folder = File(sd, "/myfolder/")
@@ -167,12 +189,20 @@ class Fragment1Child1 : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
+
         Log.i("Exists", fileName.exists().toString())
         Log.i("Location", fileName.path.toString())
         Log.i("Name", fileName.name)
 
         GlobalScope.launch(Dispatchers.IO) {
+            workerThread()
             val result = runBlocking { apiClient.getBySendingImage(fileName) }
+
+            while (result.isEmpty()){
+                delay(100)
+            }
+
+            workerThreadStop()
 
             val originalImage = OriginalImage(bitmapImage, result)
             parentFragmentManager.setFragmentResult(
