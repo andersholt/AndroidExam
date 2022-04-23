@@ -22,7 +22,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:tag="1"
-            android:text="@string/upload_image"
+            android:text="@string/upload"
 
             />
 

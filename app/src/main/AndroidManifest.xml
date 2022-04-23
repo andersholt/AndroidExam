@@ -15,11 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidExam"
         android:usesCleartextTraffic="true" >
-        <activity
-            android:name=".SplashActivity"
-            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
-            android:exported="true">
-        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true" >

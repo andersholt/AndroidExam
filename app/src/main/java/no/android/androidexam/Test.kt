@@ -155,6 +155,7 @@ class ChildRecyclerViewAdapterFrag3(arrayList: ResultImages, var fragmentManager
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var heroImage: ImageView = itemView.findViewById(R.id.hero_image)
+        var checkBox : CheckBox = itemView.findViewById(R.id.checkbox)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -166,6 +167,7 @@ class ChildRecyclerViewAdapterFrag3(arrayList: ResultImages, var fragmentManager
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = childModelArrayList.bitmaps[position]
         val heroImage = holder.heroImage
+        var checkBox = holder.checkBox
         var clicked = false
 
         heroImage.setImageBitmap(currentItem.bitmap)
@@ -173,13 +175,13 @@ class ChildRecyclerViewAdapterFrag3(arrayList: ResultImages, var fragmentManager
         heroImage.setOnClickListener{
             if(position != 0){
                 if(clicked){
-                    heroImage.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.LIGHTEN)
+                    checkBox.isChecked = false
                     list.remove(currentItem.id)
                     fragmentManager.setFragmentResult("selectedImagesId",  bundleOf("idList" to list))
 
                     clicked = false
                 }else{
-                    heroImage.setColorFilter(Color.LTGRAY, PorterDuff.Mode.DARKEN)
+                    checkBox.isChecked = true
                     list.add(currentItem.id)
                     fragmentManager.setFragmentResult("selectedImagesId",  bundleOf("idList" to list))
 

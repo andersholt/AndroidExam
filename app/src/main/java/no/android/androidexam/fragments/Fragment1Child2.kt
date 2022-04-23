@@ -1,7 +1,6 @@
 package no.android.androidexam.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +42,7 @@ class Fragment1Child2 : Fragment() {
         ) { requestKey, bundle ->
             val result: OriginalImage? = bundle.getParcelable<OriginalImage>("bundleKey")
             link = result!!
-            linkText.text = result.link
+            linkText.text = "Click on Results after the loading is done"
         }
 
 
@@ -65,7 +64,7 @@ class Fragment1Child2 : Fragment() {
 
 
     private fun onClick(v: View) {
-        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.loading_layout) }
+        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.searching_loadin_layout) }
 
         if (this::link.isInitialized) {
 

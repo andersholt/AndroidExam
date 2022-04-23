@@ -8,13 +8,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select search engine"
+        android:layout_marginTop="200dp"
+        android:text="@string/select_search_engine"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linkText">
-
-    </TextView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/bing"
@@ -24,7 +23,7 @@
         android:text="Bing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/linkText"
         />
 
     <Button
@@ -51,11 +50,10 @@
         android:id="@+id/linkText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select an image"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

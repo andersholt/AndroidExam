@@ -5,12 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.os.TransactionTooLargeException
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.WorkerThread
@@ -144,7 +144,7 @@ class Fragment1Child1 : Fragment() {
     }
 
     private fun uploadBitmap(bitmapImage: Bitmap) {
-        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.loading_layout) }
+        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.adding_loading_layout) }
         @WorkerThread
         fun workerThread() {
             context?.let {
@@ -183,12 +183,18 @@ class Fragment1Child1 : Fragment() {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
+        }catch (e: TransactionTooLargeException){
+            Toast.makeText(activity, "File to large, try again", Toast.LENGTH_SHORT).show()
+
         }
         Log.i("Exists", fileName.exists().toString())
         Log.i("Location", fileName.path.toString())
         Log.i("Name", fileName.name)
 
         GlobalScope.launch(Dispatchers.IO) {
+
+            workerThread()
+
             val result = runBlocking { apiClient.getBySendingImage(fileName) }
 
             while (result.isEmpty()){

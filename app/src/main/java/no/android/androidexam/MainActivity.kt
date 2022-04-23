@@ -18,8 +18,6 @@ class MainActivity : AppCompatActivity() {
         fragmentManager = supportFragmentManager
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val spinner: ProgressBar = findViewById(R.id.progressBar1)
-        spinner.visibility = View.GONE
         fragmentManager
             .beginTransaction()
             .replace(
