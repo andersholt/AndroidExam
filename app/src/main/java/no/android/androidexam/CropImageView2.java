@@ -48,7 +48,7 @@ import no.android.androidexam.util.PaintUtil;
 /**
  * Custom view that provides cropping capabilities to an image.
  */
-public class CropImageView2 extends ImageView {
+public class CropImageView2 extends androidx.appcompat.widget.AppCompatImageView {
 
     // Private Constants ///////////////////////////////////////////////////////////////////////////
 
@@ -102,7 +102,7 @@ public class CropImageView2 extends ImageView {
     // handle. However, we want to maintain these offset values while the handle
     // is being dragged so that the handle doesn't jump.
     @NonNull
-    private PointF mTouchOffset = new PointF();
+    private final PointF mTouchOffset = new PointF();
 
     // The Handle that is currently pressed; null if no Handle is pressed.
     private Handle mPressedHandle;

@@ -17,6 +17,10 @@ import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import kotlinx.coroutines.*
@@ -55,18 +59,6 @@ class Fragment1Child1 : Fragment() {
         val view = inflater.inflate(R.layout.fragment1_child1, container, false)
 
 
-        if (savedInstanceState != null) {
-            bitmapImage = savedInstanceState.getBundle("stateKey")?.get("bitmapKey") as Bitmap;
-            image = view.findViewById(R.id.image)
-            image.layoutParams.apply {
-                width = bitmapImage.width
-                height = bitmapImage.height
-            }.also { it -> image.layoutParams = it }
-            image.setImageBitmap(bitmapImage)
-            image.background = BitmapDrawable(resources, bitmapImage)
-        }
-
-
         Toast.makeText(activity, "Fragment 1 child 1", Toast.LENGTH_SHORT).show()
 
         val button = view.findViewById<Button>(R.id.select_image)
@@ -86,7 +78,6 @@ class Fragment1Child1 : Fragment() {
         }, object : OnImageSizeChangedListener {
             override fun onImageSizeChanged(rec: Rect) {
                 Log.i("Rect tag", rec.flattenToString())
-
                 actualCropRect = rec
             }
 
@@ -115,11 +106,15 @@ class Fragment1Child1 : Fragment() {
 
             bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
 
-            image.layoutParams.apply {
+            val aspectRatio = bitmapImage.width.toFloat()/bitmapImage.height.toFloat()
 
-                width = bitmapImage.width
-                height = bitmapImage.height
-            }.also { it -> image.layoutParams = it }
+            Log.i("Height", view?.height.toString())
+            image.layoutParams.apply {
+                width = -1
+                height = (image.width / aspectRatio).toInt()
+            }.also { image.layoutParams = it }
+
+
 
             image.setImageBitmap(bitmapImage)
             image.background = BitmapDrawable(resources, bitmapImage)
@@ -135,9 +130,9 @@ class Fragment1Child1 : Fragment() {
             var bufferBitmap = Bitmap.createBitmap(
                 bitmapImage,
                 rect?.left!!,
-                rect?.top!!,
-                rect?.right!!,
-                rect?.bottom!!
+                rect.top,
+                rect.right,
+                rect.bottom
             )
             uploadBitmap(bufferBitmap)
 
@@ -189,13 +184,11 @@ class Fragment1Child1 : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
         Log.i("Exists", fileName.exists().toString())
         Log.i("Location", fileName.path.toString())
         Log.i("Name", fileName.name)
 
         GlobalScope.launch(Dispatchers.IO) {
-            workerThread()
             val result = runBlocking { apiClient.getBySendingImage(fileName) }
 
             while (result.isEmpty()){

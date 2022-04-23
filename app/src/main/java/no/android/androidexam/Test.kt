@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.FragmentManager
@@ -35,13 +34,17 @@ class OriginalImage(
     val link: String? = ""
 ):Parcelable
 
-
 @Parcelize
-class ListOfBitmaps(
+class ResultImages(
     val foreignKey: Int,
-    val bitmaps: ArrayList<Bitmap> = ArrayList(),
+    val bitmaps: ArrayList<ResultImage> = ArrayList(),
 ):Parcelable
 
+@Parcelize
+class ResultImage(
+    val id: Int,
+    val bitmap: Bitmap,
+):Parcelable
 
 class ParentModel(private var imageBitmap: Bitmap, private var id: Int) {
     fun parentBitmap(): Bitmap {
@@ -101,12 +104,16 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>, var fragmentMan
 class ParentRecyclerViewAdapter(
     private val parentModelArrayList: ArrayList<ParentModel>,
     private var cxt: Context,
-    private val listOfBitmaps: ArrayList<ListOfBitmaps>
+    private val listOfBitmaps: ArrayList<ResultImages>,
+    var fragmentManager: FragmentManager
 ) :
     RecyclerView.Adapter<ParentRecyclerViewAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var childRecyclerView: RecyclerView = itemView.findViewById(R.id.Child_RV)
     }
+
+    private var list: ArrayList<Int> = ArrayList()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View = LayoutInflater.from(parent.context)
@@ -129,19 +136,22 @@ class ParentRecyclerViewAdapter(
             Log.i("Items", item.foreignKey.toString())
 
             if(item.foreignKey == id){
-                item.bitmaps.add(0, currentItem.parentBitmap())
+                item.bitmaps.add(0, ResultImage(id, currentItem.parentBitmap()))
                 holder.childRecyclerView.layoutManager = layoutManager
                 holder.childRecyclerView.setHasFixedSize(true)
-                val childRecyclerViewAdapter = ChildRecyclerViewAdapterFrag3(item.bitmaps)
+                val childRecyclerViewAdapter = ChildRecyclerViewAdapterFrag3(item, fragmentManager, list)
                 holder.childRecyclerView.adapter = childRecyclerViewAdapter
             }
         }
     }
 }
 
-class ChildRecyclerViewAdapterFrag3(arrayList: ArrayList<Bitmap>) :
+class ChildRecyclerViewAdapterFrag3(arrayList: ResultImages, var fragmentManager: FragmentManager, var list: ArrayList<Int>) :
     RecyclerView.Adapter<ChildRecyclerViewAdapterFrag3.MyViewHolder>() {
-    private var childModelArrayList: ArrayList<Bitmap> = arrayList
+    private var childModelArrayList = arrayList
+
+
+
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var heroImage: ImageView = itemView.findViewById(R.id.hero_image)
@@ -154,12 +164,35 @@ class ChildRecyclerViewAdapterFrag3(arrayList: ArrayList<Bitmap>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = childModelArrayList[position]
-        holder.heroImage.setImageBitmap(currentItem)
+        val currentItem = childModelArrayList.bitmaps[position]
+        val heroImage = holder.heroImage
+        var clicked = false
+
+        heroImage.setImageBitmap(currentItem.bitmap)
+
+        heroImage.setOnClickListener{
+            if(position != 0){
+                if(clicked){
+                    heroImage.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.LIGHTEN)
+                    list.remove(currentItem.id)
+                    fragmentManager.setFragmentResult("selectedImagesId",  bundleOf("idList" to list))
+
+                    clicked = false
+                }else{
+                    heroImage.setColorFilter(Color.LTGRAY, PorterDuff.Mode.DARKEN)
+                    list.add(currentItem.id)
+                    fragmentManager.setFragmentResult("selectedImagesId",  bundleOf("idList" to list))
+
+                    clicked = true
+                }
+                Log.i("id", currentItem.id.toString())
+
+            }
+        }
     }
 
     override fun getItemCount(): Int {
-        return childModelArrayList.size
+        return childModelArrayList.bitmaps.size
     }
 
 }
