@@ -14,14 +14,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
+import kotlinx.coroutines.*
 
 import no.android.androidexam.ApiClient
 import no.android.androidexam.OriginalImage
 import no.android.androidexam.ResData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 import no.android.androidexam.R
 import java.util.*
