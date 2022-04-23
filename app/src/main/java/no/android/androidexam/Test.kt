@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
@@ -58,6 +59,7 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>, var fragmentMan
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var heroImage: ImageView = itemView.findViewById(R.id.hero_image)
+        var checkBox : CheckBox = itemView.findViewById(R.id.checkbox)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -71,18 +73,19 @@ class ChildRecyclerViewAdapter(arrayList: ArrayList<ImageLinks>, var fragmentMan
         var clicked = false
         Log.i("link", currentItem.storeLink)
         val heroImage = holder.heroImage
+        var checkBox = holder.checkBox
         var bitmapImage: Bitmap? = null
 
         Picasso.get().load(currentItem.storeLink).into(heroImage)
         heroImage.setOnClickListener{
             if(clicked){
-                heroImage.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.LIGHTEN)
+                checkBox.isChecked = false
                 list.remove(bitmapImage)
                 fragmentManager.setFragmentResult("selectedImages",  bundleOf("bitmapList" to list))
                 clicked = false
             }else{
                 bitmapImage = heroImage.drawToBitmap()
-                heroImage.setColorFilter(Color.LTGRAY, PorterDuff.Mode.DARKEN)
+                checkBox.isChecked = true
                 list.add(bitmapImage!!)
                 fragmentManager.setFragmentResult("selectedImages",  bundleOf("bitmapList" to list))
                 clicked = true

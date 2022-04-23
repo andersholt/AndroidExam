@@ -16,6 +16,8 @@
     <string name="image_search">Image Search</string>
     <string name="results">Results</string>
     <string name="saved_data">Saved Results</string>
+    <string name="please_wait">Please Wait</string>
+    <string name="save_chosen_results">Save chosen results</string>
     <!--main buttons-->
 
     <!--buttons-->
