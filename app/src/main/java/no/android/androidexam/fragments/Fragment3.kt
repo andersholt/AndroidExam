@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import no.android.androidexam.*
@@ -88,14 +90,6 @@ class Fragment3 : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment3, container, false)
 
-        val button = view.findViewById<Button>(R.id.submitButton)
-        button.setOnClickListener {
-            for (item in idList){
-                dbHelper.writableDatabase.delete("bitmapsChildren", "id = $item", null)
-            }
-        }
-
-
         parentRecyclerView = view?.findViewById(R.id.Parent_recyclerView)
         parentRecyclerView!!.setHasFixedSize(true)
         parentLayoutManager = LinearLayoutManager(context)
@@ -104,9 +98,22 @@ class Fragment3 : Fragment() {
         parentRecyclerView!!.adapter = parentAdapter
         parentAdapter?.notifyDataSetChanged()
 
+        val button = view.findViewById<Button>(R.id.submitButton)
+        button.setOnClickListener {
+            for (item in idList){
+                dbHelper.writableDatabase.delete("bitmapsChildren", "id = $item", null)
+            }
+        }
+
         return view
     }
 
+    private fun refresh() {
+        val ft1: FragmentTransaction = parentFragmentManager.beginTransaction()
+        ft1.detach(this).commit()
+        val ft2: FragmentTransaction = parentFragmentManager.beginTransaction()
+        ft2.attach(this).commit()
+    }
 
     override fun onResume() {
         super.onResume()
