@@ -1,7 +1,5 @@
 package no.android.androidexam.fragments
 
-import android.content.ContentValues
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import no.android.androidexam.*
+import no.android.androidexam.adapters.ParentRecyclerViewAdapter
 
 class Fragment3 : Fragment() {
     private var parentRecyclerView: RecyclerView? = null
@@ -87,8 +86,6 @@ class Fragment3 : Fragment() {
         }
 
 
-
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment3, container, false)
 
         val button = view.findViewById<Button>(R.id.submitButton)
@@ -109,4 +106,16 @@ class Fragment3 : Fragment() {
 
         return view
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
 }

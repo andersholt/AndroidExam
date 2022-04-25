@@ -86,14 +86,11 @@ class Fragment1Child1 : Fragment() {
         submitButton.setOnClickListener {
             try {
                 submitCroppedImage()
-            }catch (e: UninitializedPropertyAccessException){
+            } catch (e: UninitializedPropertyAccessException) {
 
                 Toast.makeText(activity, "Please choose an Image", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
         return view
     }
 
@@ -106,7 +103,7 @@ class Fragment1Child1 : Fragment() {
 
             bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
 
-            val aspectRatio = bitmapImage.width.toFloat()/bitmapImage.height.toFloat()
+            val aspectRatio = bitmapImage.width.toFloat() / bitmapImage.height.toFloat()
 
             Log.i("Height", view?.height.toString())
             image.layoutParams.apply {
@@ -118,8 +115,6 @@ class Fragment1Child1 : Fragment() {
 
             image.setImageBitmap(bitmapImage)
             image.background = BitmapDrawable(resources, bitmapImage)
-            //Crop Before this -- Create a method
-
         }
 
     private fun submitCroppedImage() {
@@ -144,7 +139,10 @@ class Fragment1Child1 : Fragment() {
     }
 
     private fun uploadBitmap(bitmapImage: Bitmap) {
-        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.adding_loading_layout) }
+        val loadingDialog = this.context?.let {
+            MaterialDialog(it).noAutoDismiss().customView(R.layout.adding_loading_layout)
+        }
+
         @WorkerThread
         fun workerThread() {
             context?.let {
@@ -183,9 +181,8 @@ class Fragment1Child1 : Fragment() {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
-        }catch (e: TransactionTooLargeException){
+        } catch (e: TransactionTooLargeException) {
             Toast.makeText(activity, "File to large, try again", Toast.LENGTH_SHORT).show()
-
         }
         Log.i("Exists", fileName.exists().toString())
         Log.i("Location", fileName.path.toString())
@@ -197,7 +194,7 @@ class Fragment1Child1 : Fragment() {
 
             val result = runBlocking { apiClient.getBySendingImage(fileName) }
 
-            while (result.isEmpty()){
+            while (result.isEmpty()) {
                 delay(100)
             }
 
@@ -210,6 +207,17 @@ class Fragment1Child1 : Fragment() {
             )
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
 
 }
 

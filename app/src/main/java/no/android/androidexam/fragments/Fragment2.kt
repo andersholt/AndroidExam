@@ -11,10 +11,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import no.android.androidexam.*
+import no.android.androidexam.adapters.ChildRecyclerViewAdapter
 import java.io.ByteArrayOutputStream
 
 
@@ -65,39 +67,70 @@ class Fragment2 : Fragment() {
             bitmaps = bundle.get("bitmapList") as ArrayList<Bitmap>
             Log.i("Bitmap", bitmaps.toString())
         }
+
+
         val button: Button = view.findViewById(R.id.submitButton)
 
         button.setOnClickListener {
-            val stream = ByteArrayOutputStream()
-            res.originalImage.bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
-            val image = stream.toByteArray()
-
-            dbHelper.writableDatabase.insert("bitmapsParent", null, ContentValues().apply {
-                put("bitmapImage", image)
-            })
-            //Getting the primarykey
-            val cursor = dbHelper.writableDatabase.query(
-                "bitmapsParent",
-                arrayOf("id"),
-                null,null,null,null,"id desc","1"
-            )
-            cursor.moveToFirst()
-            val id = cursor.getInt(0)
-            cursor.close()
-
-            for (item in bitmaps) {
+            try {
                 val stream = ByteArrayOutputStream()
-                item.compress(Bitmap.CompressFormat.PNG, 90, stream)
+                res.originalImage.bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
                 val image = stream.toByteArray()
 
-                dbHelper.writableDatabase.insert("bitmapsChildren", null, ContentValues().apply {
+                dbHelper.writableDatabase.insert("bitmapsParent", null, ContentValues().apply {
                     put("bitmapImage", image)
-                    put("parentId", id)
                 })
-            }
+                //Getting the primarykey
+                val cursor = dbHelper.writableDatabase.query(
+                    "bitmapsParent",
+                    arrayOf("id"),
+                    null, null, null, null, "id desc", "1"
+                )
+                cursor.moveToFirst()
+                val id = cursor.getInt(0)
+                cursor.close()
 
+                for (item in bitmaps) {
+                    val stream = ByteArrayOutputStream()
+                    item.compress(Bitmap.CompressFormat.PNG, 90, stream)
+                    val image = stream.toByteArray()
+
+                    dbHelper.writableDatabase.insert(
+                        "bitmapsChildren",
+                        null,
+                        ContentValues().apply {
+                            put("bitmapImage", image)
+                            put("parentId", id)
+                        })
+                }
+            }catch (e : UninitializedPropertyAccessException){
+                Toast.makeText(activity,"Please select pictures to save",Toast.LENGTH_SHORT).show()
+            }
         }
         return view
    }
+
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
+  /*  override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        var child = childRecyclerView.toString()
+        outState.putString("childAdapter", child)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        childRecyclerView = savedInstanceState.getString("childAdapter")
+    }*/
 }
 

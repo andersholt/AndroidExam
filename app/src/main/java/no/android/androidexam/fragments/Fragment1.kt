@@ -10,7 +10,7 @@ import no.android.androidexam.R
 
 
 class Fragment1 : Fragment() {
-    val bundle = Bundle()
+    private val bundle = Bundle()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,11 +19,11 @@ class Fragment1 : Fragment() {
         val view = inflater.inflate(R.layout.fragment1, container, false)
 
         val selectImage: Button = view.findViewById(R.id.select_image)
-        selectImage.setOnClickListener{
+        selectImage.setOnClickListener {
             switchFragment(view.findViewWithTag("1"))
         }
         val uploadImage: Button = view.findViewById(R.id.upload_image)
-        uploadImage.setOnClickListener{
+        uploadImage.setOnClickListener {
             switchFragment(view.findViewWithTag("2"))
         }
 
@@ -55,4 +55,6 @@ class Fragment1 : Fragment() {
                 .commit()
         }
     }
+
+
 }
