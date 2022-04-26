@@ -58,12 +58,15 @@ class Fragment1Child1 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment1_child1, container, false)
+        Log.i("Saved?", savedInstanceState.toString())
 
 
         Toast.makeText(activity, "Fragment 1 child 1", Toast.LENGTH_SHORT).show()
 
         val button = view.findViewById<Button>(R.id.select_image)
         val submitButton = view.findViewById<Button>(R.id.upload_cropped_image)
+
+
 
         button.setOnClickListener {
             image = view.findViewById(R.id.image)
@@ -127,7 +130,6 @@ class Fragment1Child1 : Fragment() {
         var rect = actualCropRect
 
         try {
-
             var bufferBitmap = Bitmap.createBitmap(
                 bitmapImage,
                 rect?.left!!,
@@ -136,10 +138,8 @@ class Fragment1Child1 : Fragment() {
                 rect.bottom
             )
             uploadBitmap(bufferBitmap)
-
         } catch (e: NullPointerException) {
             uploadBitmap(bitmapImage)
-
         }
 
     }

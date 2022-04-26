@@ -12,16 +12,22 @@ import no.android.androidexam.fragments.Fragment3
 
 class MainActivity : AppCompatActivity() {
     private lateinit var fragmentManager: FragmentManager
+    private  var fragment1 =  Fragment1()
+    private  var fragment2 =  Fragment2()
+    private  var fragment3 =  Fragment3()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         fragmentManager = supportFragmentManager
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         fragmentManager
             .beginTransaction()
             .replace(
                 R.id.fragment_main,
-                Fragment1(),
+                fragment1,
                 "Fragment1"
             )
             .commit()
@@ -39,27 +45,30 @@ class MainActivity : AppCompatActivity() {
         if(Integer.parseInt(v.tag.toString()) == 1) {
             fragmentManager
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(
                     R.id.fragment_main,
-                    Fragment1(),
+                    fragment1,
                     "Fragment1"
                 )
                 .commit()
         } else if(Integer.parseInt(v.tag.toString()) == 2){
             fragmentManager
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(
                     R.id.fragment_main,
-                    Fragment2(),
+                    fragment2,
                     "Fragment2"
                 )
                 .commit()
         } else{
             fragmentManager
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(
                     R.id.fragment_main,
-                    Fragment3(),
+                    fragment3,
                     "Fragment3"
                 )
                 .commit()

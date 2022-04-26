@@ -10,7 +10,8 @@ import no.android.androidexam.R
 
 
 class Fragment1 : Fragment() {
-    private val bundle = Bundle()
+    private val child1 = Fragment1Child1()
+    private val child2 = Fragment1Child2()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,18 +39,16 @@ class Fragment1 : Fragment() {
                 .beginTransaction()
                 .replace(
                     R.id.child_fragment_container,
-                    Fragment1Child1(),
+                    child1,
                     "Fragment1child1"
                 )
                 .commit()
         } else if (Integer.parseInt(v.tag.toString()) == 2) {
-            val fragment1Child2 = Fragment1Child2()
-            fragment1Child2.arguments = bundle
             childFragmentManager
                 .beginTransaction()
                 .replace(
                     R.id.child_fragment_container,
-                    fragment1Child2,
+                    child2,
                     "Fragment1Child2"
                 )
                 .commit()
