@@ -2,7 +2,6 @@ package no.android.androidexam
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -18,8 +17,6 @@ class MainActivity : AppCompatActivity() {
         fragmentManager = supportFragmentManager
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val spinner: ProgressBar = findViewById(R.id.progressBar1)
-        spinner.visibility = View.GONE
         fragmentManager
             .beginTransaction()
             .replace(
@@ -67,5 +64,35 @@ class MainActivity : AppCompatActivity() {
                 )
                 .commit()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Toast.makeText(this, "Activity onStart", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(this, "Activity onResume", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Toast.makeText(this, "Activity onPause", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Toast.makeText(this, "Activity onStop", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Toast.makeText(this, "Activity onRestart", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Toast.makeText(this, "Activity onDestroy", Toast.LENGTH_SHORT).show()
     }
 }

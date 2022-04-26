@@ -21,13 +21,11 @@ import no.android.androidexam.OriginalImage
 import no.android.androidexam.ResData
 
 import no.android.androidexam.R
-import java.util.*
 
 
 class Fragment1Child2 : Fragment() {
     private lateinit var link: OriginalImage
     val apiClient = ApiClient()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +33,7 @@ class Fragment1Child2 : Fragment() {
     ): View? {
         Toast.makeText(activity, "Fragment 1 onCreateView", Toast.LENGTH_SHORT).show()
         val view = inflater.inflate(R.layout.fragment1_child2, container, false)
-        val linkText: TextView = view.findViewById(R.id.linkText)
+        val resultText: TextView = view.findViewById(R.id.linkText)
 
         parentFragmentManager.setFragmentResultListener(
             "requestKey",
@@ -43,7 +41,7 @@ class Fragment1Child2 : Fragment() {
         ) { requestKey, bundle ->
             val result: OriginalImage? = bundle.getParcelable<OriginalImage>("bundleKey")
             link = result!!
-            linkText.text = result.link
+            resultText.text = "Click on Results after the loading is done"
         }
 
 
@@ -65,7 +63,7 @@ class Fragment1Child2 : Fragment() {
 
 
     private fun onClick(v: View) {
-        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.loading_layout) }
+        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.searching_loadin_layout) }
 
         if (this::link.isInitialized) {
 
@@ -112,8 +110,16 @@ class Fragment1Child2 : Fragment() {
         }
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
 }
 
-interface OnTextClickListener {
-    fun onTextClick(data: Objects)
-}

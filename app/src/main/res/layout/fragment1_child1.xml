@@ -12,6 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/select_image"
+        app:layout_constraintBottom_toTopOf="@+id/upload_cropped_image"
         />
 
     <Button
@@ -19,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_image"
-        app:layout_constraintEnd_toStartOf="@+id/upload_cropped_image"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,12 +28,13 @@
         android:id="@+id/upload_cropped_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="20dp"
+
         android:text="@string/upload_image"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/select_image"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

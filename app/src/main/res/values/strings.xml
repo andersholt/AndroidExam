@@ -9,7 +9,7 @@
     <string name="select_image">Select your image</string>
     <string name="search_image">Search your image</string>
 
-    <string name="upload_image">Upload Image</string>
+    <string name="upload_image">Upload Original or Cropped Image</string>
     <string name="search_engine">Choose Your Search Engine</string>
 
     <!--main buttons-->
@@ -18,6 +18,17 @@
     <string name="saved_data">Saved Results</string>
     <!--main buttons-->
 
+    <string name="upload">Upload</string>
+    <string name="save_chosen_results">Save chosen results</string>
+
     <!--buttons-->
+
+    <!--dialog-->
+    <string name="searching_please_wait">Searching… Please Wait</string>
+    <string name="uploading_please_wait">Uploading… please wait</string>
+    <!--dialog-->
+
+    <string name="select_search_engine">Select search engine</string>
+
 
 </resources>

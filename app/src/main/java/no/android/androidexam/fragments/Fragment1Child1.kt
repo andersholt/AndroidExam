@@ -5,11 +5,13 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.os.TransactionTooLargeException
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.WorkerThread
@@ -29,6 +31,7 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.NullPointerException
+
 
 class Fragment1Child1 : Fragment() {
     private var imageUri: String = ""
@@ -80,6 +83,7 @@ class Fragment1Child1 : Fragment() {
             }
 
         })
+
         submitButton.setOnClickListener {
             try {
                 submitCroppedImage()
@@ -88,6 +92,9 @@ class Fragment1Child1 : Fragment() {
                 Toast.makeText(activity, "Please choose an Image", Toast.LENGTH_SHORT).show()
             }
         }
+
+
+
         return view
     }
 
@@ -100,7 +107,7 @@ class Fragment1Child1 : Fragment() {
 
             bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
 
-            val aspectRatio = bitmapImage.width.toFloat()/bitmapImage.height.toFloat()
+            val aspectRatio = bitmapImage.width.toFloat() / bitmapImage.height.toFloat()
 
             Log.i("Height", view?.height.toString())
             image.layoutParams.apply {
@@ -120,6 +127,7 @@ class Fragment1Child1 : Fragment() {
         var rect = actualCropRect
 
         try {
+
             var bufferBitmap = Bitmap.createBitmap(
                 bitmapImage,
                 rect?.left!!,
@@ -137,7 +145,10 @@ class Fragment1Child1 : Fragment() {
     }
 
     private fun uploadBitmap(bitmapImage: Bitmap) {
-        val loadingDialog = this.context?.let { MaterialDialog(it).customView(R.layout.loading_layout, dialogWrapContent = true) }
+        val loadingDialog = this.context?.let {
+            MaterialDialog(it).noAutoDismiss().customView(R.layout.adding_loading_layout)
+        }
+
         @WorkerThread
         fun workerThread() {
             context?.let {
@@ -176,6 +187,8 @@ class Fragment1Child1 : Fragment() {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
+        } catch (e: TransactionTooLargeException) {
+            Toast.makeText(activity, "File to large, try again", Toast.LENGTH_SHORT).show()
         }
         Log.i("Exists", fileName.exists().toString())
         Log.i("Location", fileName.path.toString())
@@ -183,11 +196,13 @@ class Fragment1Child1 : Fragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
             workerThread()
+
             val result = runBlocking { apiClient.getBySendingImage(fileName) }
 
             while (result.isEmpty()){
                 delay(100)
             }
+
             workerThreadStop()
 
             val originalImage = OriginalImage(bitmapImage, result)
@@ -197,6 +212,17 @@ class Fragment1Child1 : Fragment() {
             )
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
 
 }
 
