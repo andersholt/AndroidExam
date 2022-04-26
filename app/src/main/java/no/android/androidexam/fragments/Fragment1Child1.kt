@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.WorkerThread
@@ -30,7 +29,6 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.NullPointerException
-
 
 class Fragment1Child1 : Fragment() {
     private var imageUri: String = ""
@@ -82,18 +80,14 @@ class Fragment1Child1 : Fragment() {
             }
 
         })
-
         submitButton.setOnClickListener {
             try {
                 submitCroppedImage()
-            }catch (e: UninitializedPropertyAccessException){
+            } catch (e: UninitializedPropertyAccessException) {
 
                 Toast.makeText(activity, "Please choose an Image", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
         return view
     }
 
@@ -126,7 +120,6 @@ class Fragment1Child1 : Fragment() {
         var rect = actualCropRect
 
         try {
-
             var bufferBitmap = Bitmap.createBitmap(
                 bitmapImage,
                 rect?.left!!,
@@ -144,7 +137,7 @@ class Fragment1Child1 : Fragment() {
     }
 
     private fun uploadBitmap(bitmapImage: Bitmap) {
-        val loadingDialog = this.context?.let { MaterialDialog(it).noAutoDismiss().customView(R.layout.loading_layout) }
+        val loadingDialog = this.context?.let { MaterialDialog(it).customView(R.layout.loading_layout, dialogWrapContent = true) }
         @WorkerThread
         fun workerThread() {
             context?.let {
@@ -164,7 +157,7 @@ class Fragment1Child1 : Fragment() {
 
 
         val sd: File? = context?.cacheDir
-        val folder = File(sd, "/myfolder/")
+        val folder = File(sd, "/images/")
         if (!folder.exists()) {
             if (!folder.mkdir()) {
                 Log.e("ERROR", "Cannot create a directory!")
@@ -189,12 +182,12 @@ class Fragment1Child1 : Fragment() {
         Log.i("Name", fileName.name)
 
         GlobalScope.launch(Dispatchers.IO) {
+            workerThread()
             val result = runBlocking { apiClient.getBySendingImage(fileName) }
 
             while (result.isEmpty()){
                 delay(100)
             }
-
             workerThreadStop()
 
             val originalImage = OriginalImage(bitmapImage, result)
