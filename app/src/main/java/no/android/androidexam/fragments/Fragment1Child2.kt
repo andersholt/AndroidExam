@@ -50,7 +50,7 @@ class Fragment1Child2 : Fragment() {
 
     private fun onClick(v: View) {
         if (this::link.isInitialized) {
-            val workerThread = MyWorkerThread(requireContext())
+            val workerThread = MyWorkerThread(requireContext(), R.layout.searching_loadin_layout)
             var notToLong = true
             if (!internetIsConnected(requireActivity())) {
                 Toast.makeText(activity, "No network connection", Toast.LENGTH_SHORT).show()

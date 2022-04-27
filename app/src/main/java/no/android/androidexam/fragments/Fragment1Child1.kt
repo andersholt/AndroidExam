@@ -163,7 +163,7 @@ class Fragment1Child1 : Fragment() {
                 .show()
             return
         }
-        val workerThread = MyWorkerThread(requireContext())
+        val workerThread = MyWorkerThread(requireContext(), R.layout.adding_loading_layout)
         var notToLong = true
 
         if(!internetIsConnected(requireActivity())){

@@ -6,9 +6,9 @@ import androidx.core.content.ContextCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 
-class MyWorkerThread(context: Context) {
+class MyWorkerThread(context: Context, layout: Int) {
     val loadingDialog = context.let {
-        MaterialDialog(it).noAutoDismiss().customView(R.layout.adding_loading_layout)
+        MaterialDialog(it).noAutoDismiss().customView(layout)
     }
     @WorkerThread
     fun start(context: Context) {
