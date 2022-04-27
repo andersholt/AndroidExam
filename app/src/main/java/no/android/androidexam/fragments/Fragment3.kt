@@ -44,7 +44,6 @@ class Fragment3 : Fragment() {
 
 
         val view = inflater.inflate(R.layout.fragment3, container, false)
-
         loadRecyclerView(view)
 
         val button = view.findViewById<Button>(R.id.submitButton)
@@ -68,7 +67,10 @@ class Fragment3 : Fragment() {
         parentRecyclerView = view.findViewById(R.id.Parent_recyclerView)
         parentRecyclerView!!.setHasFixedSize(true)
         parentLayoutManager = LinearLayoutManager(context)
-        parentAdapter = context?.let { ParentRecyclerViewAdapter(parentModelArrayList, it, listOfResultImages, parentFragmentManager) }
+        parentAdapter = context?.let {
+            ParentRecyclerViewAdapter(parentModelArrayList,
+                it, listOfResultImages, parentFragmentManager)
+        }
         parentRecyclerView!!.layoutManager = parentLayoutManager
         parentRecyclerView!!.adapter = parentAdapter
         parentAdapter?.notifyDataSetChanged()

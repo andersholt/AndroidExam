@@ -114,16 +114,13 @@ class Fragment2 : Fragment() {
         return view
    }
 
-  /*  override fun onSaveInstanceState(outState: Bundle) {
+  override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
          listState = childLayoutManager?.onSaveInstanceState();
         outState.putParcelable("LIST_STATE_KEY", listState);
         Log.i("onsavestate", "OnSaveState")
-    }
+  }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null)
@@ -135,7 +132,7 @@ class Fragment2 : Fragment() {
     }
 
 
-    */
+
 /*override fun onPause() {
         super.onPause()
         bundleRecyclerViewState = Bundle()

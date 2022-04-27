@@ -13,3 +13,13 @@ fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap {
 fun getBitmap(context: Context, id: Int?, uri: String?, decoder: (Context, Int?, String?) -> Bitmap): Bitmap {
     return decoder(context, id, uri)
 }
+
+
+fun internetIsConnected(): Boolean {
+    try {
+        var command = "ping -c 1 google.com";
+        return (Runtime.getRuntime().exec(command).waitFor() == 0);
+    } catch (e: Exception) {
+        return false;
+    }
+}

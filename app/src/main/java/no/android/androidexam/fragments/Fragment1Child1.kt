@@ -1,5 +1,6 @@
 package no.android.androidexam.fragments
 
+import android.accounts.NetworkErrorException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Rect
@@ -88,7 +89,6 @@ class Fragment1Child1 : Fragment() {
 
     private var startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
-
             imageUri = it.data?.data.toString()
 
             Log.i("Image", imageUri)
@@ -168,35 +168,32 @@ class Fragment1Child1 : Fragment() {
         val workerThread = MyWorkerThread(requireContext())
         var notToLong = true
 
-        GlobalScope.launch(Dispatchers.IO) {
+        if(!internetIsConnected()){
+            Toast.makeText(activity, "No network connection", Toast.LENGTH_SHORT).show()
+        }else{
+                GlobalScope.launch(Dispatchers.IO) {
 
-            workerThread.start(requireContext())
-            val result = runBlocking { apiClient.getBySendingImage(fileName) }
-            var counter = 0
-            while (result.isEmpty() && notToLong) {
-                if (counter >= 40) {
-                    notToLong = false
+                    workerThread.start(requireContext())
+                    val result = runBlocking { apiClient.getBySendingImage(fileName) }
+                    var counter = 0
+                    while (result.isEmpty() && notToLong) {
+                        if (counter >= 40) {
+                            notToLong = false
+                        }
+                        counter++
+                        delay(100)
+                    }
+                    workerThread.stop(requireContext())
+
+                    if (notToLong) {
+                        val originalImage = OriginalImage(bitmapImage, result)
+                        parentFragmentManager.setFragmentResult(
+                            "requestKey",
+                            bundleOf("bundleKey" to originalImage)
+                        )
+                    }
                 }
-                counter++
-                delay(100)
-            }
-            workerThread.stop(requireContext())
-
-            if(notToLong){
-                val originalImage = OriginalImage(bitmapImage, result)
-                parentFragmentManager.setFragmentResult(
-                    "requestKey",
-                    bundleOf("bundleKey" to originalImage)
-                )
-            }
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("Fragment2Child2", "Fragment2Child2")
-    }
-
-
 }
 
