@@ -1,12 +1,13 @@
 package no.android.androidexam.fragments
 
-import android.accounts.NetworkErrorException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.TransactionTooLargeException
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -89,6 +90,7 @@ class Fragment1Child1 : Fragment() {
 
     private var startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+
             imageUri = it.data?.data.toString()
 
             Log.i("Image", imageUri)
@@ -194,6 +196,15 @@ class Fragment1Child1 : Fragment() {
                     }
                 }
         }
+    }
+
+    fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap {
+        val image: Bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(uri))
+        return image
+    }
+
+    fun getBitmap(context: Context, id: Int?, uri: String?, decoder: (Context, Int?, String?) -> Bitmap): Bitmap {
+        return decoder(context, id, uri)
     }
 }
 
