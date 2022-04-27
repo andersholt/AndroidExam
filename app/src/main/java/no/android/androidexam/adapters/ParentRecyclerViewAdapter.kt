@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import no.android.androidexam.*
+import no.android.androidexam.ParentModel
+import no.android.androidexam.R
+import no.android.androidexam.ResultImage
+import no.android.androidexam.ResultImages
 
 class ParentRecyclerViewAdapter(
     private val parentModelArrayList: ArrayList<ParentModel>,

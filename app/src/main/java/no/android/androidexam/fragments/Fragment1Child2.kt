@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import internetIsConnected
+import no.android.androidexam.internetIsConnected
 import kotlinx.coroutines.*
 import no.android.androidexam.*
 

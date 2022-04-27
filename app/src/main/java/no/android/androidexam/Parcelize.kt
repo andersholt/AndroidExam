@@ -1,20 +1,8 @@
 package no.android.androidexam
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Parcelable
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.parcelize.Parcelize
-import no.android.androidexam.adapters.ParentRecyclerViewAdapter
 
 
 @Parcelize
