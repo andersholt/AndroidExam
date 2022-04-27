@@ -210,12 +210,12 @@ class Fragment1Child1 : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.i("Fragment2Child2", "Fragment2Child2")
+        Log.i("onResume", "Fragment1Child1")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.i("Fragment2Child2", "Fragment2Child2")
+        Log.i("onPause", "Fragment1Child1")
     }
 
 
