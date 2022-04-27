@@ -44,14 +44,6 @@ class Fragment1Child1 : Fragment() {
         fun onImageSizeChanged(rec: Rect)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.i("Saving", "saving")
-        if (this::bitmapImage.isInitialized) {
-            outState.putBundle("stateKey", bundleOf("bitmapKey" to bitmapImage))
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

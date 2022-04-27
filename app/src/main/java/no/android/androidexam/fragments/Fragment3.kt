@@ -24,6 +24,57 @@ class Fragment3 : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadDatabase()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val dbHelper = DbHelper(requireContext())
+
+        var idList = ArrayList<Int>()
+        parentFragmentManager.setFragmentResultListener(
+            "selectedImagesId",
+            viewLifecycleOwner
+        ) { requestKey, bundle ->
+            idList = bundle.get("idList") as ArrayList<Int>
+            Log.i("IDs", idList.toString())
+        }
+
+
+        val view = inflater.inflate(R.layout.fragment3, container, false)
+
+        loadRecyclerView(view)
+
+        val button = view.findViewById<Button>(R.id.submitButton)
+        button.setOnClickListener {
+            for (item in idList){
+                dbHelper.writableDatabase.delete("bitmapsChildren", "id = $item", null)
+            }
+            parentRecyclerView =  null
+            parentAdapter = null
+            parentModelArrayList = ArrayList()
+            parentLayoutManager= null
+            listOfResultImages = ArrayList<ResultImages>()
+            loadDatabase()
+            loadRecyclerView(view)
+        }
+
+        return view
+    }
+
+    private fun loadRecyclerView(view: View){
+        parentRecyclerView = view.findViewById(R.id.Parent_recyclerView)
+        parentRecyclerView!!.setHasFixedSize(true)
+        parentLayoutManager = LinearLayoutManager(context)
+        parentAdapter = context?.let { ParentRecyclerViewAdapter(parentModelArrayList, it, listOfResultImages, parentFragmentManager) }
+        parentRecyclerView!!.layoutManager = parentLayoutManager
+        parentRecyclerView!!.adapter = parentAdapter
+        parentAdapter?.notifyDataSetChanged()
+    }
+
+    private fun loadDatabase(){
         val dbHelper = DbHelper(requireContext())
 
         var cursor = dbHelper.writableDatabase.query(
@@ -69,47 +120,5 @@ class Fragment3 : Fragment() {
             }
         }
         cursor.close()
-    }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val dbHelper = DbHelper(requireContext())
-
-        var idList = ArrayList<Int>()
-        parentFragmentManager.setFragmentResultListener(
-            "selectedImagesId",
-            viewLifecycleOwner
-        ) { requestKey, bundle ->
-            idList = bundle.get("idList") as ArrayList<Int>
-            Log.i("IDs", idList.toString())
-        }
-
-
-        val view = inflater.inflate(R.layout.fragment3, container, false)
-
-        parentRecyclerView = view?.findViewById(R.id.Parent_recyclerView)
-        parentRecyclerView!!.setHasFixedSize(true)
-        parentLayoutManager = LinearLayoutManager(context)
-        parentAdapter = context?.let { ParentRecyclerViewAdapter(parentModelArrayList, it, listOfResultImages, parentFragmentManager) }
-        parentRecyclerView!!.layoutManager = parentLayoutManager
-        parentRecyclerView!!.adapter = parentAdapter
-        parentAdapter?.notifyDataSetChanged()
-
-        val button = view.findViewById<Button>(R.id.submitButton)
-        button.setOnClickListener {
-            for (item in idList){
-                dbHelper.writableDatabase.delete("bitmapsChildren", "id = $item", null)
-            }
-        }
-
-        return view
-    }
-
-    private fun refresh() {
-        val ft1: FragmentTransaction = parentFragmentManager.beginTransaction()
-        ft1.detach(this).commit()
-        val ft2: FragmentTransaction = parentFragmentManager.beginTransaction()
-        ft2.attach(this).commit()
     }
 }
