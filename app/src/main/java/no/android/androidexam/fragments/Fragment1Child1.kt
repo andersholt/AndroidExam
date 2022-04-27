@@ -1,5 +1,6 @@
 package no.android.androidexam.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Rect
@@ -21,6 +22,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
+import internetIsConnected
 import kotlinx.coroutines.*
 import no.android.androidexam.*
 import java.io.File
