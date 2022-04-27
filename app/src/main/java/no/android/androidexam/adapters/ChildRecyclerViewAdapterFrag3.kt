@@ -36,8 +36,14 @@ class ChildRecyclerViewAdapterFrag3(arrayList: ResultImages, var fragmentManager
         var checkBox = holder.checkBox
         var clicked = false
 
-        heroImage.setImageBitmap(currentItem.bitmap)
+        if (position == 0){
+            heroImage.setImageBitmap(currentItem.bitmap)
+            checkBox.visibility = View.GONE
+        }else{
+            heroImage.setImageBitmap(currentItem.bitmap)
+        }
 
+        
         heroImage.setOnClickListener{
             if(position != 0){
                 if(clicked){

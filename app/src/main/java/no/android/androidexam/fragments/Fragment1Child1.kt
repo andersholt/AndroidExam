@@ -44,11 +44,23 @@ class Fragment1Child1 : Fragment() {
         fun onImageSizeChanged(rec: Rect)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.i("Saving", "saving")
+        if (this::bitmapImage.isInitialized) {
+            outState.putBundle("stateKey", bundleOf("bitmapKey" to bitmapImage))
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment1_child1, container, false)
+
+
+        Toast.makeText(activity, "Fragment 1 child 1", Toast.LENGTH_SHORT).show()
+
         val button = view.findViewById<Button>(R.id.select_image)
         submitButton = view.findViewById<Button>(R.id.upload_cropped_image)
 
@@ -75,6 +87,7 @@ class Fragment1Child1 : Fragment() {
             try {
                 submitCroppedImage()
             } catch (e: UninitializedPropertyAccessException) {
+
                 Toast.makeText(activity, "Please choose an Image", Toast.LENGTH_SHORT).show()
             }
         }
@@ -83,7 +96,11 @@ class Fragment1Child1 : Fragment() {
 
     private var startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+
             imageUri = it.data?.data.toString()
+
+            Log.i("Image", imageUri)
+
             bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
 
             if (imageWidth == 0) {
@@ -182,5 +199,12 @@ class Fragment1Child1 : Fragment() {
             }
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("Fragment2Child2", "Fragment2Child2")
+    }
+
+
 }
 

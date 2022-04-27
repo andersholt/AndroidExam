@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import no.android.androidexam.*
@@ -21,7 +19,7 @@ class Fragment3 : Fragment() {
     private var parentAdapter: RecyclerView.Adapter<*>? = null
     private var parentModelArrayList: ArrayList<ParentModel> = ArrayList()
     private var parentLayoutManager: RecyclerView.LayoutManager? = null
-    private var listOfBitmaps = ArrayList<ResultImages>()
+    private var listOfResultImages = ArrayList<ResultImages>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +54,7 @@ class Fragment3 : Fragment() {
             val bitmap = BitmapFactory.decodeByteArray(bitmapImage,0,bitmapImage.size)
             var edited = false
 
-            for(item in listOfBitmaps){
+            for(item in listOfResultImages){
                 if (item.foreignKey == parentId){
                     item.bitmaps.add(ResultImage(id, bitmap))
                     edited = true
@@ -66,7 +64,7 @@ class Fragment3 : Fragment() {
                 val newListOfBitmaps = ArrayList<ResultImage>()
                 newListOfBitmaps.add(ResultImage(id, bitmap))
                 val listOfBitmaps2 = ResultImages(parentId, newListOfBitmaps)
-                listOfBitmaps.add(listOfBitmaps2)
+                listOfResultImages.add(listOfBitmaps2)
             }
         }
         cursor.close()
@@ -92,7 +90,7 @@ class Fragment3 : Fragment() {
         parentRecyclerView = view?.findViewById(R.id.Parent_recyclerView)
         parentRecyclerView!!.setHasFixedSize(true)
         parentLayoutManager = LinearLayoutManager(context)
-        parentAdapter = context?.let { ParentRecyclerViewAdapter(parentModelArrayList, it, listOfBitmaps, parentFragmentManager) }
+        parentAdapter = context?.let { ParentRecyclerViewAdapter(parentModelArrayList, it, listOfResultImages, parentFragmentManager) }
         parentRecyclerView!!.layoutManager = parentLayoutManager
         parentRecyclerView!!.adapter = parentAdapter
         parentAdapter?.notifyDataSetChanged()

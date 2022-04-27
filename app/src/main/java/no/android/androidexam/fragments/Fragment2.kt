@@ -2,8 +2,10 @@ package no.android.androidexam.fragments
 
 
 import android.content.ContentValues
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +27,9 @@ class Fragment2 : Fragment() {
     private var childAdapter: RecyclerView.Adapter<*>? = null
     private var childModelArrayList: ArrayList<ImageLinks> = ArrayList()
     private var childLayoutManager: RecyclerView.LayoutManager? = null
+    private var bundleRecyclerViewState : Bundle? = null
     lateinit var res: ResData
+    private var listState : Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,13 +116,44 @@ class Fragment2 : Fragment() {
 
   /*  override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        var child = childRecyclerView.toString()
-        outState.putString("childAdapter", child)
+         listState = childLayoutManager?.onSaveInstanceState();
+        outState.putParcelable("LIST_STATE_KEY", listState);
+        Log.i("onsavestate", "OnSaveState")
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+    }
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        childRecyclerView = savedInstanceState.getString("childAdapter")
-    }*/
+        if (savedInstanceState != null)
+            listState = savedInstanceState.getParcelable("LIST_STATE_KEY")
+        else{
+            Log.i("error", "state restored error")
+        }
+
+    }
+
+
+    */
+/*override fun onPause() {
+        super.onPause()
+        bundleRecyclerViewState = Bundle()
+        val listState: Parcelable? = childRecyclerView?.getLayoutManager()?.onSaveInstanceState()
+        bundleRecyclerViewState!!.putParcelable("recycler_state", listState)
+        Log.i("onPause", "Fragment2")
+    }
+*//*
+
+    override fun onResume() {
+        super.onResume()
+
+        if (listState != null) {
+           childLayoutManager.onre
+        }
+        Log.i("onResume", "Fragment2")
+    }
+*/
+
 }
 
