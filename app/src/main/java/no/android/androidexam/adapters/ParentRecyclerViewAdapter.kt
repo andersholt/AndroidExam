@@ -13,7 +13,7 @@ import no.android.androidexam.*
 class ParentRecyclerViewAdapter(
     private val parentModelArrayList: ArrayList<ParentModel>,
     private var cxt: Context,
-    private val listOfBitmaps: ArrayList<ResultImages>,
+    private val listOfResultImages: ArrayList<ResultImages>,
     var fragmentManager: FragmentManager
 ) :
     RecyclerView.Adapter<ParentRecyclerViewAdapter.MyViewHolder>() {
@@ -22,6 +22,7 @@ class ParentRecyclerViewAdapter(
     }
 
     private var list: ArrayList<Int> = ArrayList()
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -41,7 +42,7 @@ class ParentRecyclerViewAdapter(
             LinearLayoutManager(cxt, LinearLayoutManager.HORIZONTAL, false)
         val id = currentItem.parentId()
 
-        for(item in listOfBitmaps){
+        for(item in listOfResultImages){
             Log.i("Items", item.foreignKey.toString())
 
             if(item.foreignKey == id){
