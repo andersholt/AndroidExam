@@ -7,7 +7,6 @@ import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.TransactionTooLargeException
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,28 +15,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.WorkerThread
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
 import internetIsConnected
 import kotlinx.coroutines.*
 import no.android.androidexam.*
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
-import java.io.IOException
-
-
+import kotlin.reflect.KFunction3
 
 
 class Fragment1Child1 : Fragment() {
     private var imageUri: String = ""
     lateinit var image: CropImageView2
     private var apiClient = ApiClient()
-    lateinit var bitmapImage: Bitmap
+    var bitmapImage: Bitmap? = null
     var imageHeight = 0
     var imageWidth = 0
     lateinit var submitButton: Button
@@ -98,50 +90,52 @@ class Fragment1Child1 : Fragment() {
             Log.i("Image", imageUri)
 
             bitmapImage = getBitmap(requireContext(), null, imageUri, ::UriToBitmap)
+            if (bitmapImage != null) {
+                if (imageWidth == 0) {
+                    imageHeight = image.height
+                    imageWidth = image.width
+                }
 
-            if (imageWidth == 0) {
-                imageHeight = image.height
-                imageWidth = image.width
+                Log.i("Height", image.height.toString())
+                val aspectRatio = bitmapImage!!.width.toFloat() / bitmapImage!!.height.toFloat()
+                val aspectRatioImage = imageWidth.toFloat() / imageHeight.toFloat()
+
+                if (aspectRatio < aspectRatioImage) {
+                    image.layoutParams.apply {
+                        width = (imageHeight * aspectRatio).toInt()
+                        height = -1
+                    }.also { image.layoutParams = it }
+                } else {
+                    image.layoutParams.apply {
+                        width = -1
+                        height = (imageWidth / aspectRatio).toInt()
+                    }.also { image.layoutParams = it }
+                }
+                image.setImageBitmap(bitmapImage)
+                image.background = BitmapDrawable(resources, bitmapImage)
+                image.visibility = View.VISIBLE
+                submitButton.visibility = View.VISIBLE
+            }else{
+                Toast.makeText(activity, "Not a image", Toast.LENGTH_SHORT).show()
             }
-
-            Log.i("Height", image.height.toString())
-            val aspectRatio = bitmapImage.width.toFloat() / bitmapImage.height.toFloat()
-            val aspectRatioImage = imageWidth.toFloat() / imageHeight.toFloat()
-
-            if (aspectRatio < aspectRatioImage) {
-                image.layoutParams.apply {
-                    width = (imageHeight * aspectRatio).toInt()
-                    height = -1
-                }.also { image.layoutParams = it }
-            } else {
-                image.layoutParams.apply {
-                    width = -1
-                    height = (imageWidth * aspectRatio).toInt()
-                }.also { image.layoutParams = it }
-            }
-            image.setImageBitmap(bitmapImage)
-            image.background = BitmapDrawable(resources, bitmapImage)
-            image.visibility = View.VISIBLE
-            submitButton.visibility = View.VISIBLE
         }
 
     private fun submitCroppedImage() {
         var rect = actualCropRect
+        if (bitmapImage != null){
+            try {
+                var bufferBitmap = Bitmap.createBitmap(
+                    bitmapImage!!,
+                    rect?.left!!,
+                    rect.top,
+                    rect.right,
+                    rect.bottom
+                )
+                uploadBitmap(bufferBitmap)
 
-        try {
-
-            var bufferBitmap = Bitmap.createBitmap(
-                bitmapImage,
-                rect?.left!!,
-                rect.top,
-                rect.right,
-                rect.bottom
-            )
-            uploadBitmap(bufferBitmap)
-
-        } catch (e: NullPointerException) {
-            uploadBitmap(bitmapImage)
-
+            } catch (e: NullPointerException) {
+                uploadBitmap(bitmapImage!!)
+            }
         }
 
     }
@@ -200,12 +194,17 @@ class Fragment1Child1 : Fragment() {
         }
     }
 
-    fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap {
-        val image: Bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(uri))
-        return image
+    fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap? {
+        try{
+            val image: Bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(uri))
+            return image
+        }catch (e: Exception){
+            Log.i("Exception","Not image type")
+        }
+        return null
     }
 
-    fun getBitmap(context: Context, id: Int?, uri: String?, decoder: (Context, Int?, String?) -> Bitmap): Bitmap {
+    fun getBitmap(context: Context, id: Int?, uri: String?, decoder: KFunction3<Context, Int?, String?, Bitmap?>): Bitmap? {
         return decoder(context, id, uri)
     }
 }
