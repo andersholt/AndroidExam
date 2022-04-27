@@ -36,6 +36,7 @@ class Fragment1 : Fragment() {
         if (Integer.parseInt(v.tag.toString()) == 1) {
             childFragmentManager
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(
                     R.id.child_fragment_container,
                     Fragment1Child1(),
@@ -47,6 +48,7 @@ class Fragment1 : Fragment() {
             fragment1Child2.arguments = bundle
             childFragmentManager
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(
                     R.id.child_fragment_container,
                     fragment1Child2,

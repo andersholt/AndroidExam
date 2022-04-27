@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         if(Integer.parseInt(v.tag.toString()) == 1) {
             fragmentManager
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(
                     R.id.fragment_main,
                     Fragment1(),
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         } else if(Integer.parseInt(v.tag.toString()) == 2){
             fragmentManager
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(
                     R.id.fragment_main,
                     Fragment2(),
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         } else{
             fragmentManager
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(
                     R.id.fragment_main,
                     Fragment3(),
@@ -64,35 +67,5 @@ class MainActivity : AppCompatActivity() {
                 )
                 .commit()
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Toast.makeText(this, "Activity onStart", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Toast.makeText(this, "Activity onResume", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Toast.makeText(this, "Activity onPause", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Toast.makeText(this, "Activity onStop", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Toast.makeText(this, "Activity onRestart", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Toast.makeText(this, "Activity onDestroy", Toast.LENGTH_SHORT).show()
     }
 }

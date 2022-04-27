@@ -29,6 +29,8 @@
     <!--dialog-->
 
     <string name="select_search_engine">Select search engine</string>
+    <string name="saved_results">Saved results</string>
+    <string name="delete">Delete</string>
 
 
 </resources>

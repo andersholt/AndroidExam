@@ -110,18 +110,6 @@ class Fragment2 : Fragment() {
         return view
    }
 
-
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("Fragment2Child2", "Fragment2Child2")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("Fragment2Child2", "Fragment2Child2")
-    }
-
   /*  override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         var child = childRecyclerView.toString()

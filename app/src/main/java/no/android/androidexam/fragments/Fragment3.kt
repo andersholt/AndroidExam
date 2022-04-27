@@ -75,7 +75,6 @@ class Fragment3 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Toast.makeText(activity, "Fragment 3 onCreateView", Toast.LENGTH_SHORT).show()
         val dbHelper = DbHelper(requireContext())
 
         var idList = ArrayList<Int>()
@@ -114,15 +113,4 @@ class Fragment3 : Fragment() {
         val ft2: FragmentTransaction = parentFragmentManager.beginTransaction()
         ft2.attach(this).commit()
     }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("Fragment2Child2", "Fragment2Child2")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("Fragment2Child2", "Fragment2Child2")
-    }
-
 }
