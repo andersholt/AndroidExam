@@ -13,7 +13,7 @@
         app:layout_constraintTop_toBottomOf="@+id/select_image"
         android:gravity="center_horizontal">
 
-        <no.android.androidexam.CropImageView2
+        <no.android.androidexam.CropImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

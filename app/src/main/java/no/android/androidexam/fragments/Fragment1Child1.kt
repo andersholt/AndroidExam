@@ -27,7 +27,7 @@ import kotlin.reflect.KFunction3
 
 class Fragment1Child1 : Fragment() {
     private var imageUri: String = ""
-    lateinit var image: CropImageView2
+    lateinit var image: CropImageView
     private var apiClient = ApiClient()
     var bitmapImage: Bitmap? = null
     var imageHeight = 0
