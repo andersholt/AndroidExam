@@ -166,7 +166,7 @@ class Fragment1Child1 : Fragment() {
         val workerThread = MyWorkerThread(requireContext())
         var notToLong = true
 
-        if(!internetIsConnected()){
+        if(!internetIsConnected(requireActivity())){
             Toast.makeText(activity, "No network connection", Toast.LENGTH_SHORT).show()
         }else{
                 GlobalScope.launch(Dispatchers.IO) {

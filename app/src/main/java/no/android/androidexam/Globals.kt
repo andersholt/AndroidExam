@@ -1,10 +1,18 @@
 package no.android.androidexam
 
-fun internetIsConnected(): Boolean {
-    return try {
-        val command = "ping -c 1 google.com"
-        (Runtime.getRuntime().exec(command).waitFor() == 0)
-    } catch (e: Exception) {
-        false
-    }
+import android.app.Activity
+import android.content.Context
+import android.net.NetworkInfo
+
+import android.net.ConnectivityManager
+
+
+
+fun internetIsConnected(activity : Activity): Boolean {
+    var connected = false
+    val connectivityManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+    connected =
+        connectivityManager!!.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)!!.state == NetworkInfo.State.CONNECTED ||
+            connectivityManager!!.getNetworkInfo(ConnectivityManager.TYPE_WIFI)!!.state == NetworkInfo.State.CONNECTED
+    return connected
 }

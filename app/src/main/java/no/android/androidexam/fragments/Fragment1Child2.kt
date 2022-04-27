@@ -52,7 +52,7 @@ class Fragment1Child2 : Fragment() {
         if (this::link.isInitialized) {
             val workerThread = MyWorkerThread(requireContext())
             var notToLong = true
-            if (!internetIsConnected()) {
+            if (!internetIsConnected(requireActivity())) {
                 Toast.makeText(activity, "No network connection", Toast.LENGTH_SHORT).show()
             } else {
                 GlobalScope.launch(Dispatchers.IO) {
