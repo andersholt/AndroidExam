@@ -27,7 +27,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,12 +47,12 @@ import no.android.androidexam.util.PaintUtil;
 /**
  * Custom view that provides cropping capabilities to an image.
  */
-public class CropImageView2 extends androidx.appcompat.widget.AppCompatImageView {
+public class CropImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     // Private Constants ///////////////////////////////////////////////////////////////////////////
 
     @SuppressWarnings("unused")
-    private static final String TAG = CropImageView2.class.getName();
+    private static final String TAG = CropImageView.class.getName();
 
     @SuppressWarnings("unused")
     public static final int GUIDELINES_OFF = 0;
@@ -124,17 +123,17 @@ public class CropImageView2 extends androidx.appcompat.widget.AppCompatImageView
 
     // Constructors ////////////////////////////////////////////////////////////////////////////////
 
-    public CropImageView2(Context context) {
+    public CropImageView(Context context) {
         super(context);
         init(context, null);
     }
 
-    public CropImageView2(Context context, AttributeSet attrs) {
+    public CropImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public CropImageView2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CropImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }

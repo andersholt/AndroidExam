@@ -2,7 +2,6 @@ package no.android.androidexam.fragments
 
 
 import android.content.ContentValues
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Parcelable
@@ -17,7 +16,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import no.android.androidexam.*
+import no.android.androidexam.DbHelper
+import no.android.androidexam.ImageLinks
+import no.android.androidexam.R
+import no.android.androidexam.ResData
 import no.android.androidexam.adapters.ChildRecyclerViewAdapter
 import java.io.ByteArrayOutputStream
 
@@ -113,44 +115,6 @@ class Fragment2 : Fragment() {
         }
         return view
    }
-
-  override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-         listState = childLayoutManager?.onSaveInstanceState();
-        outState.putParcelable("LIST_STATE_KEY", listState);
-        Log.i("onsavestate", "OnSaveState")
-  }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null)
-            listState = savedInstanceState.getParcelable("LIST_STATE_KEY")
-        else{
-            Log.i("error", "state restored error")
-        }
-
-    }
-
-
-
-/*override fun onPause() {
-        super.onPause()
-        bundleRecyclerViewState = Bundle()
-        val listState: Parcelable? = childRecyclerView?.getLayoutManager()?.onSaveInstanceState()
-        bundleRecyclerViewState!!.putParcelable("recycler_state", listState)
-        Log.i("onPause", "Fragment2")
-    }
-*//*
-
-    override fun onResume() {
-        super.onResume()
-
-        if (listState != null) {
-           childLayoutManager.onre
-        }
-        Log.i("onResume", "Fragment2")
-    }
-*/
 
 }
 
