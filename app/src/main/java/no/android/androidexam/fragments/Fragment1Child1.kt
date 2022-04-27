@@ -17,7 +17,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import internetIsConnected
 import kotlinx.coroutines.*
 import no.android.androidexam.*
 import java.io.File
@@ -115,14 +114,14 @@ class Fragment1Child1 : Fragment() {
                 image.background = BitmapDrawable(resources, bitmapImage)
                 image.visibility = View.VISIBLE
                 submitButton.visibility = View.VISIBLE
-            }else{
+            } else {
                 Toast.makeText(activity, "Not a image", Toast.LENGTH_SHORT).show()
             }
         }
 
     private fun submitCroppedImage() {
         var rect = actualCropRect
-        if (bitmapImage != null){
+        if (bitmapImage != null) {
             try {
                 var bufferBitmap = Bitmap.createBitmap(
                     bitmapImage!!,
@@ -166,45 +165,48 @@ class Fragment1Child1 : Fragment() {
         val workerThread = MyWorkerThread(requireContext())
         var notToLong = true
 
-        if(!internetIsConnected()){
-            Toast.makeText(activity, "No network connection", Toast.LENGTH_SHORT).show()
-        }else{
-                GlobalScope.launch(Dispatchers.IO) {
 
-                    workerThread.start(requireContext())
-                    val result = runBlocking { apiClient.getBySendingImage(fileName) }
-                    var counter = 0
-                    while (result.isEmpty() && notToLong) {
-                        if (counter >= 40) {
-                            notToLong = false
-                        }
-                        counter++
-                        delay(100)
-                    }
-                    workerThread.stop(requireContext())
+        GlobalScope.launch(Dispatchers.IO) {
 
-                    if (notToLong) {
-                        val originalImage = OriginalImage(bitmapImage, result)
-                        parentFragmentManager.setFragmentResult(
-                            "requestKey",
-                            bundleOf("bundleKey" to originalImage)
-                        )
-                    }
+            workerThread.start(requireContext())
+            val result = runBlocking { apiClient.getBySendingImage(fileName) }
+            var counter = 0
+            while (result.isEmpty() && notToLong) {
+                if (counter >= 40) {
+                    notToLong = false
                 }
+                counter++
+                delay(100)
+            }
+            workerThread.stop(requireContext())
+
+            if (notToLong) {
+                val originalImage = OriginalImage(bitmapImage, result)
+                parentFragmentManager.setFragmentResult(
+                    "requestKey",
+                    bundleOf("bundleKey" to originalImage)
+                )
+            }
         }
     }
 
     fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap? {
-        try{
-            val image: Bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(uri))
+        try {
+            val image: Bitmap =
+                MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(uri))
             return image
-        }catch (e: Exception){
-            Log.i("Exception","Not image type")
+        } catch (e: Exception) {
+            Log.i("Exception", "Not image type")
         }
         return null
     }
 
-    fun getBitmap(context: Context, id: Int?, uri: String?, decoder: KFunction3<Context, Int?, String?, Bitmap?>): Bitmap? {
+    fun getBitmap(
+        context: Context,
+        id: Int?,
+        uri: String?,
+        decoder: KFunction3<Context, Int?, String?, Bitmap?>
+    ): Bitmap? {
         return decoder(context, id, uri)
     }
 }

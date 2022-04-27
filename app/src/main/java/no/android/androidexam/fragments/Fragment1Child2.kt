@@ -9,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import internetIsConnected
 import kotlinx.coroutines.*
 import no.android.androidexam.*
 
@@ -52,30 +51,28 @@ class Fragment1Child2 : Fragment() {
         if (this::link.isInitialized) {
             val workerThread = MyWorkerThread(requireContext())
             var notToLong = true
-            if (!internetIsConnected()) {
-                Toast.makeText(activity, "No network connection", Toast.LENGTH_SHORT).show()
-            } else {
-                GlobalScope.launch(Dispatchers.IO) {
-                    workerThread.start(requireContext())
-                    var result =
-                        runBlocking { apiClient.getByWebUrl(link.link.toString(), v.tag as String) }
-                    var counter = 0
-                    while (result.isEmpty() && notToLong) {
-                        if (counter >= 150) {
-                            notToLong = false
-                        }
-                        counter++
-                        delay(100)
-                    }
-                    workerThread.stop(requireContext())
 
-                    if (notToLong) {
-                        val resData = ResData(link, v.tag as String, result)
-                        requireActivity().supportFragmentManager.setFragmentResult(
-                            "requestKey2",
-                            bundleOf("bundleKey2" to resData)
-                        )
+            GlobalScope.launch(Dispatchers.IO) {
+                workerThread.start(requireContext())
+                var result =
+                    runBlocking { apiClient.getByWebUrl(link.link.toString(), v.tag as String) }
+                var counter = 0
+                while (result.isEmpty() && notToLong) {
+                    if (counter >= 150) {
+                        notToLong = false
                     }
+                    counter++
+                    delay(100)
+                }
+                workerThread.stop(requireContext())
+
+                if (notToLong) {
+                    val resData = ResData(link, v.tag as String, result)
+                    requireActivity().supportFragmentManager.setFragmentResult(
+                        "requestKey2",
+                        bundleOf("bundleKey2" to resData)
+                    )
+
                 }
             }
         } else {
